@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink} from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-area-utente',
   templateUrl: './area-utente.component.html',
   styleUrls: ['./area-utente.component.css'],
-  imports: []
+  imports: [ CommonModule ]
   
 })
 export class AreaUtenteComponent  {

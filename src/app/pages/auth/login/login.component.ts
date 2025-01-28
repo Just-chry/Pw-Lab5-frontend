@@ -1,5 +1,3 @@
-// src/app/pages/auth/login/login.component.ts
-
 import { Component, OnInit, OnDestroy, Renderer2, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,11 +8,11 @@ import Lenis from '@studio-freight/lenis';
 
 @Component({
   selector: 'app-login',
-  standalone: true, // Dichiarazione del componente come standalone
+  standalone: true,
   imports: [
-    CommonModule, // Import di CommonModule per direttive come *ngFor
-    FormsModule,  // Import di FormsModule per ngModel
-    RouterModule  // Import di RouterModule per routerLink
+    CommonModule,
+    FormsModule,
+    RouterModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -37,9 +35,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private renderer2: Renderer2) {}
 
   ngOnInit(): void {
-    // Animazioni GSAP
-    gsap.from('.containerLogin', { opacity: 0, y: -50, duration: 1 });
-    gsap.from('.containerRegister', { opacity: 0, y: 50, duration: 1, delay: 0.5 });
+    // Animazioni GSAP (le gestiremo in seguito)
+    gsap.from('.formContainer', { opacity: 0, y: -50, duration: 1 });
+    gsap.from('.imageContainer', { opacity: 0, y: 50, duration: 1, delay: 0.5 });
 
     // Inizializzazione di Three.js
     this.initThreeJS();
@@ -69,15 +67,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   // Gestione del ridimensionamento della finestra
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-    this.camera.updateProjectionMatrix();
+    if (this.camera && this.renderer) {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
 
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+    }
   }
 
   private initThreeJS(): void {
     this.scene = new THREE.Scene();
-
+  
     this.camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
@@ -85,21 +85,26 @@ export class LoginComponent implements OnInit, OnDestroy {
       1000
     );
     this.camera.position.z = 20;
-
-    this.renderer = new THREE.WebGLRenderer({ alpha: true });
+  
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+  
     // Append del renderer al container specificato
     this.renderer2.appendChild(
       this.rendererContainer.nativeElement,
       this.renderer.domElement
     );
-
+  
+    // Aggiunta di luce ambientale per illuminare la sfera
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    this.scene.add(ambientLight);
+  
     const geometry = new THREE.SphereGeometry(5, 32, 32);
-    const material = new THREE.MeshBasicMaterial({ color: 0xa90202 });
+    const material = new THREE.MeshStandardMaterial({ color: 0xa90202 });
     this.sphere = new THREE.Mesh(geometry, material);
     this.scene.add(this.sphere);
-
+  
     this.animate();
   }
 

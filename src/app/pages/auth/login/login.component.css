@@ -1,80 +1,154 @@
-h2 {
-  color: #a90202;
-  font-weight: 550;
-  font-size: 2rem;
+/* Reset di base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.mainContainer {
+body, html, .mainContainer {
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* Variabili CSS per colori */
+:root {
+  --primary-color: #a90202;
+  --secondary-color: #e1e1e1;
+  --text-color: #333;
+  --error-color: red;
+}
+
+/* Sfondo Animato */
+.animatedBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.renderer-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* Contenuto Principale */
+.contentContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8); /* Sfondo semi-trasparente per migliorare la leggibilità */
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.containerLogin,
-.containerRegister {
+/* Sezione Immagine */
+.imageContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.loginImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Sezione Form di Login */
+.formContainer {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  align-items: stretch;
+  padding: 20px;
 }
 
-.containerLogin {
-  width: 60%;
-  background-color: #e1e1e1;
-}
-
-.containerRegister {
-  width: 40%;
-  background-color: #a90202;
-}
-
-label, input {
-  margin-bottom: 15px;
-  margin-top: 15px;
-}
-
-input {
-  width: 100%;
-  padding: 15px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-}
-
-button {
-  padding: 15px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  background-color: #a90202;
-  color: #e1e1e1;
-  cursor: pointer;
-  width: 300px;
-  margin: 20px auto;
-  display: block;
-}
-
-button a {
-  text-decoration: none !important;
-  color: inherit;
+h2 {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 2rem;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 p {
   text-align: center;
-  margin-top: -10px;
-
-}
-
-.pRegister {
-  color: white;
+  margin-bottom: 20px;
+  color: #555;
 }
 
 form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+input {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--primary-color);
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #8e0000;
+}
+
+.errorMessage {
+  color: var(--error-color);
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.registerSection {
+  text-align: center;
   margin-top: 20px;
 }
 
+.registerSection p {
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
 .registerButton {
-  background-color: #e1e1e1;
-  color: #a90202;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.registerButton:hover {
+  background-color: #ccc;
 }
 
 canvas {
@@ -86,14 +160,13 @@ canvas {
 
 /* Media Queries for responsive design */
 @media (max-width: 1024px) {
-  .mainContainer {
+  .contentContainer {
     flex-direction: column;
-    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
   }
 
-  .containerLogin, .containerRegister {
-    width: 80%;
-    margin-bottom: 20px;
+  .imageContainer, .formContainer {
+    width: 100%;
   }
 
   h2 {
@@ -101,13 +174,17 @@ canvas {
   }
 
   button {
-    width: 80%;
+    width: 100%;
   }
 }
 
 @media (max-width: 768px) {
-  .containerLogin, .containerRegister {
-    width: 90%;
+  .contentContainer {
+    padding: 15px;
+  }
+
+  .loginImage {
+    max-width: 80%;
   }
 
   h2 {
@@ -115,13 +192,18 @@ canvas {
   }
 
   button {
-    width: 90%;
+    padding: 10px 15px;
+    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 480px) {
-  .containerLogin, .containerRegister {
-    width: 100%;
+  .contentContainer {
+    padding: 10px;
+  }
+
+  .loginImage {
+    max-width: 100%;
   }
 
   h2 {
@@ -129,10 +211,8 @@ canvas {
   }
 
   button {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-
+    padding: 8px 12px;
+    font-size: 0.9rem;
   }
 
   .registerButton {
@@ -140,11 +220,6 @@ canvas {
   }
 
   form {
-    width: 70%;
-
-  }
-
-  .registerButton {
-    width: 70%;
+    width: 100%;
   }
 }

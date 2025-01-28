@@ -1,54 +1,73 @@
 <div class="mainContainer">
-  <div class="containerLogin" id="loginContainer">
-    <h2>Accedi al tuo account</h2>
-    <p>
-      Potrai consultare gli eventi a cui hai partecipato <br />
-      e registrarti a quelli in programma.
-    </p>
-    <form (ngSubmit)="login()">
-      <label for="email">Email </label>
-      <input
-        id="email"
-        type="email"
-        placeholder="Inserisci la tua email"
-        [(ngModel)]="email"
-        name="email"
-        required
-      />
-      <br />
-
-      <label for="password">Password </label>
-      <input
-        id="password"
-        type="password"
-        placeholder="Inserisci la tua password"
-        [(ngModel)]="password"
-        name="password"
-        required
-      />
-      <br />
-
-      <label for="phoneNumber">Numero di telefono (facoltativo) </label>
-      <input
-        id="phoneNumber"
-        type="number"
-        placeholder="Inserisci il tuo numero di telefono"
-        [(ngModel)]="phoneNumber"
-        name="phoneNumber"
-      />
-      <br />
-
-      <button type="submit">Login</button>
-    </form>
+  <!-- Sfondo Animato -->
+  <div class="animatedBackground">
+    <!-- Il canvas di Three.js verrà inserito qui tramite TypeScript -->
+    <div #rendererContainer class="renderer-container"></div>
   </div>
 
-  <div class="containerRegister" id="registerContainer">
-    <p class="pRegister">
-      Non sei ancora registrato? <br />
-      Unisciti a noi e partecipa al prossimo evento
-    </p>
-    <button class="registerButton">
-      <a routerLink="/auth/register">Registrati qui</a>
-    </button>
+  <!-- Contenuto Principale -->
+  <div class="contentContainer">
+    <!-- Sezione Immagine -->
+    <div class="imageContainer">
+      <img src="/src/assets/images/logo/logoVDGminimal.png" alt="Login Image" class="loginImage" />
+    </div>
+
+    <!-- Sezione Form di Login -->
+    <div class="formContainer">
+      <h2>Accedi al tuo account</h2>
+      <p>
+        Potrai consultare gli eventi a cui hai partecipato <br />
+        e registrarti a quelli in programma.
+      </p>
+      <form (ngSubmit)="login()">
+        <label for="email">Email <span aria-hidden="true">*</span></label>
+        <input
+          id="email"
+          type="email"
+          placeholder="Inserisci la tua email"
+          [(ngModel)]="email"
+          name="email"
+          required
+          aria-required="true"
+        />
+        <br />
+
+        <label for="password">Password <span aria-hidden="true">*</span></label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Inserisci la tua password"
+          [(ngModel)]="password"
+          name="password"
+          required
+          aria-required="true"
+        />
+        <br />
+
+        <label for="phoneNumber">Numero di telefono (facoltativo) </label>
+        <input
+          id="phoneNumber"
+          type="number"
+          placeholder="Inserisci il tuo numero di telefono"
+          [(ngModel)]="phoneNumber"
+          name="phoneNumber"
+        />
+        <br />
+
+        <button type="submit">Login</button>
+      </form>
+
+      <!-- Messaggio di errore -->
+      <div *ngIf="errorMessage" class="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div class="registerSection">
+        <p>Non sei ancora registrato?</p>
+        <button class="registerButton" routerLink="/auth/register">
+          Registrati qui
+        </button>
+      </div>
+    </div>
   </div>
 </div>
