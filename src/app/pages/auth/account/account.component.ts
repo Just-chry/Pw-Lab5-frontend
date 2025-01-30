@@ -241,40 +241,35 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   animateSwitchToRegister(): void {
-    // Entrambe le sezioni restano visibili durante la transizione
     this.registerBox.nativeElement.style.visibility = 'visible';
     this.loginBox.nativeElement.style.visibility = 'visible';
 
     const tl = gsap.timeline();
 
-    // Anima l'uscita della login box (opacità e posizione)
     tl.to(this.loginBox.nativeElement, {
       x: '100%',
       opacity: 0,
-      duration: 3,  // Durata animazione di uscita
+      duration: 3, 
       ease: 'power3.out'
     });
 
-    // Anima l'entrata della register box (opacità e posizione)
     tl.fromTo(this.registerBox.nativeElement, {
       x: '-100%',
       opacity: 0
     }, {
       x: '0%',
       opacity: 1,
-      duration: 4,  // Durata animazione di entrata
+      duration: 4,  
       ease: 'power3.out',
-    }, '<');  // '<' avvia simultaneamente l'animazione
+    }, '<'); 
   }
 
   animateSwitchToLogin(): void {
-    // Entrambe le sezioni restano visibili durante la transizione
     this.registerBox.nativeElement.style.visibility = 'visible';
     this.loginBox.nativeElement.style.visibility = 'visible';
 
     const tl = gsap.timeline();
 
-    // Anima l'uscita della register box (opacità e posizione)
     tl.to(this.registerBox.nativeElement, {
       x: '100%',
       opacity: 0,
@@ -282,7 +277,6 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       ease: 'power3.out'
     });
 
-    // Anima l'entrata della login box (opacità e posizione)
     tl.fromTo(this.loginBox.nativeElement, {
       x: '-100%',
       opacity: 0
@@ -291,7 +285,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       opacity: 1,
       duration: 4,
       ease: 'power3.out'
-    }, '<');  // '<' avvia simultaneamente l'animazione
+    }, '<'); 
   }
 
   login(): void {
