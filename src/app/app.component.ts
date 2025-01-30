@@ -20,7 +20,7 @@ export class AppComponent {
     this.router.events.subscribe(() => {
       const currentRoute = this.router.url;
       // Nasconde header e footer per le pagine di login e registrazione
-      this.hideHeaderFooter = currentRoute === '/auth/login' || currentRoute === '/auth/register';
+      this.hideHeaderFooter = currentRoute === '/auth/account#login'|| currentRoute === '/auth/account#register';
     });
   }
 }

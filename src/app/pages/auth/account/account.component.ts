@@ -1,19 +1,19 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild, HostListener, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import gsap from 'gsap';
 import * as THREE from 'three';
 import Lenis from '@studio-freight/lenis';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-account',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css'],
 })
-export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
+export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   contact: string = '';
   isEmail: boolean = true;
   password: string = '';
@@ -27,9 +27,11 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
   registerPhone: string = '';
   registerPassword: string = '';
   confirmPassword: string = '';
+  passwordError: string = '';
   registrationErrorMessage: string = '';
 
   showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
   isPasswordTyped: boolean = false;
   isRegistering: boolean = false;
 
@@ -48,17 +50,30 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('registerLeft') registerLeft!: ElementRef;
   @ViewChild('registerRight') registerRight!: ElementRef;
 
-  constructor(private renderer2: Renderer2) { }
+  constructor(private renderer2: Renderer2, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.initLenis();
   }
 
   ngAfterViewInit(): void {
-    this.loginBox.nativeElement.style.visibility = 'visible';
-    this.registerBox.nativeElement.style.visibility = 'hidden';
+    const fragment = this.route.snapshot.fragment;
 
-    this.animateEntranceLogin();;
+    if (fragment === 'register') {
+      this.isLoginVisible = false;
+    } else {
+      this.isLoginVisible = true;
+    }
+
+    this.route.fragment.subscribe((fragment) => {
+      if (fragment === 'register') {
+        this.switchToRegister();
+      } else {
+        this.switchToLogin();
+      }
+    });
+
+    this.animateEntranceLogin();
     this.animateEntranceRegister();
   }
 
@@ -96,12 +111,24 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  onPasswordInput(): void {
+    this.isPasswordTyped = this.password.length > 0;
+  }
+
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
 
-  onPasswordInput(): void {
-    this.isPasswordTyped = this.password.length > 0;
+  toggleConfirmPassword(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  validatePasswords(): void {
+    if (this.password && this.confirmPassword && this.password !== this.confirmPassword) {
+      this.passwordError = 'Le password non coincidono.';
+    } else {
+      this.passwordError = '';
+    }
   }
 
   private initLenis(): void {
@@ -134,7 +161,8 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
       x: '0%',
       opacity: 1,
       duration: 1,
-      ease: 'power3.out'
+      ease: 'power3.out',
+      delay: 0.5
     });
 
     gsap.to(rightElement, {
@@ -142,7 +170,7 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
       opacity: 1,
       duration: 1,
       ease: 'power3.out',
-      delay: 0.2
+      delay: 0.5
     });
   }
 
@@ -167,7 +195,8 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
       x: '0%',
       opacity: 1,
       duration: 1,
-      ease: 'power3.out'
+      ease: 'power3.out',
+      delay: 0.5
     });
 
     gsap.to(rightElement, {
@@ -175,18 +204,20 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
       opacity: 1,
       duration: 1,
       ease: 'power3.out',
-      delay: 0.2
+      delay: 0.5
     });
   }
 
   switchToRegister(): void {
     this.isLoginVisible = false;
     this.animateSwitchToRegister();
+    this.router.navigate([], { fragment: 'register' });
   }
 
   switchToLogin(): void {
     this.isLoginVisible = true;
     this.animateSwitchToLogin();
+    this.router.navigate([], { fragment: 'login' });
   }
 
   animateSwitchToRegister(): void {

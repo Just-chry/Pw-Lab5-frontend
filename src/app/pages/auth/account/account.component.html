@@ -201,7 +201,7 @@
         </div>
 
         <div class="input-group">
-          <input class="input-text" [type]="showPassword ? 'text' : 'password'" name="confirmPassword"
+          <input class="input-text" [type]="showConfirmPassword ? 'text' : 'password'" name="confirmPassword"
             id="confirmPassword" placeholder="Conferma Password" [(ngModel)]="confirmPassword" required />
           <label class="input-text-label" for="confirmPassword">Conferma Password</label>
           <span class="icon">
@@ -209,13 +209,13 @@
               <path fill="#b22222"
                 d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
             </svg>
-            <span *ngIf="isPasswordTyped" class="icon toggle-password" (click)="togglePassword()">
-              <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+            <span *ngIf="isPasswordTyped" class="icon toggle-password" (click)="toggleConfirmPassword()">
+              <svg *ngIf="showConfirmPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                 <path fill="#b22222"
                   d="M569.34 231.16c-47.06-77.43-134.17-135.31-245.32-135.31-111.15 0-198.26 57.88-245.32 135.31a48.62 48.62 0 0 0 0 49.68c47.06 77.44 134.17 135.31 245.32 135.31s198.26-57.87 245.32-135.31a48.62 48.62 0 0 0 0-49.68zM288 368a80 80 0 1 1 80-80 80 80 0 0 1-80 80zm0-128a48 48 0 1 0 48 48 48 48 0 0 0-48-48z" />
               </svg>
 
-              <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+              <svg *ngIf="!showConfirmPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
                 <path fill="#b22222"
                   d="M320 96C189.25 96 82.75 172.5 32 256c50.75 83.5 157.25 160 288 160s237.25-76.5 288-160c-50.75-83.5-157.25-160-288-160zM320 352c-53 0-96-43-96-96s43-96 96-96 96 43 96 96-43 96-96 96zm0-160c-35.25 0-64 28.75-64 64s28.75 64 64 64 64-28.75 64-64-28.75-64-64-64z" />
               </svg>
