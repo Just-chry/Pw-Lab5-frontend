@@ -388,7 +388,7 @@ hr {
 
 .animated-button:active {
   scale: 0.95;
-  box-shadow: 0 0 0 4px greenyellow;
+  box-shadow: 0 0 0 4px #16213e;
 }
 
 .animated-button-login:hover .circle {

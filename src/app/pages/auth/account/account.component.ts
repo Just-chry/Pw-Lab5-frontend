@@ -52,6 +52,24 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private renderer2: Renderer2, private route: ActivatedRoute, private router: Router) { }
 
+  private showRegisterSectionImmediately(): void {
+    this.registerBox.nativeElement.style.visibility = 'visible';
+    this.registerBox.nativeElement.style.opacity = '1';
+    this.registerBox.nativeElement.style.transform = 'translateX(0%)';
+  
+    this.loginBox.nativeElement.style.visibility = 'hidden';
+    this.loginBox.nativeElement.style.opacity = '0';
+  }
+  
+  private showLoginSectionImmediately(): void {
+    this.loginBox.nativeElement.style.visibility = 'visible';
+    this.loginBox.nativeElement.style.opacity = '1';
+    this.loginBox.nativeElement.style.transform = 'translateX(0%)';
+  
+    this.registerBox.nativeElement.style.visibility = 'hidden';
+    this.registerBox.nativeElement.style.opacity = '0';
+  }
+
   ngOnInit(): void {
     this.initLenis();
   }
@@ -61,8 +79,10 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (fragment === 'register') {
       this.isLoginVisible = false;
+      this.showRegisterSectionImmediately();
     } else {
       this.isLoginVisible = true;
+      this.showLoginSectionImmediately();
     }
 
     this.route.fragment.subscribe((fragment) => {
@@ -160,17 +180,17 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     gsap.to(leftElement, {
       x: '0%',
       opacity: 1,
-      duration: 1,
+      duration: 2,
       ease: 'power3.out',
-      delay: 0.5
+      delay: 0.7
     });
 
     gsap.to(rightElement, {
       x: '0%',
       opacity: 1,
-      duration: 1,
+      duration: 2,
       ease: 'power3.out',
-      delay: 0.5
+      delay: 0.7
     });
   }
 
@@ -194,17 +214,17 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     gsap.to(leftElement, {
       x: '0%',
       opacity: 1,
-      duration: 1,
+      duration: 2,
       ease: 'power3.out',
-      delay: 0.5
+      delay: 0.7
     });
 
     gsap.to(rightElement, {
       x: '0%',
       opacity: 1,
-      duration: 1,
+      duration: 2,
       ease: 'power3.out',
-      delay: 0.5
+      delay: 0.7
     });
   }
 
@@ -221,57 +241,57 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   animateSwitchToRegister(): void {
+    // Entrambe le sezioni restano visibili durante la transizione
     this.registerBox.nativeElement.style.visibility = 'visible';
+    this.loginBox.nativeElement.style.visibility = 'visible';
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        this.loginBox.nativeElement.style.visibility = 'hidden';
-      }
-    });
+    const tl = gsap.timeline();
 
+    // Anima l'uscita della login box (opacità e posizione)
     tl.to(this.loginBox.nativeElement, {
       x: '100%',
       opacity: 0,
-      duration: 0.4,
+      duration: 3,  // Durata animazione di uscita
       ease: 'power3.out'
     });
 
+    // Anima l'entrata della register box (opacità e posizione)
     tl.fromTo(this.registerBox.nativeElement, {
       x: '-100%',
       opacity: 0
     }, {
       x: '0%',
       opacity: 1,
-      duration: 0.4,
-      ease: 'power3.out'
-    });
+      duration: 4,  // Durata animazione di entrata
+      ease: 'power3.out',
+    }, '<');  // '<' avvia simultaneamente l'animazione
   }
 
   animateSwitchToLogin(): void {
+    // Entrambe le sezioni restano visibili durante la transizione
+    this.registerBox.nativeElement.style.visibility = 'visible';
     this.loginBox.nativeElement.style.visibility = 'visible';
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        this.registerBox.nativeElement.style.visibility = 'hidden';
-      }
-    });
+    const tl = gsap.timeline();
 
+    // Anima l'uscita della register box (opacità e posizione)
     tl.to(this.registerBox.nativeElement, {
       x: '100%',
       opacity: 0,
-      duration: 0.4,
+      duration: 3,
       ease: 'power3.out'
     });
 
+    // Anima l'entrata della login box (opacità e posizione)
     tl.fromTo(this.loginBox.nativeElement, {
       x: '-100%',
       opacity: 0
     }, {
       x: '0%',
       opacity: 1,
-      duration: 0.4,
+      duration: 4,
       ease: 'power3.out'
-    });
+    }, '<');  // '<' avvia simultaneamente l'animazione
   }
 
   login(): void {
