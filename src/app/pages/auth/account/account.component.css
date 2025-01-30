@@ -1,9 +1,7 @@
-/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Arial", sans-serif;
 }
 
 .animatedBackground {
@@ -40,33 +38,38 @@
   }
 }
 
-/* Contenitore principale */
-.loginContainer {
+.pageContainer {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
   height: 100vh;
 }
 
-/* Box Login */
+/* CSS Login */
+
 .loginBox {
+  position: absolute;
   display: flex;
-  height: 600px;
+  height: 700px;
   width: 1200px;
   background-color: #ffeded;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 1.5);
   overflow: hidden;
+  border-radius: 10px;
 }
 
 .welcomeContainer {
   position: relative;
-  width: 50%;
-  margin: 20px;
-  padding: 10px;
+  width: 45%;
+  margin: 2rem;
   display: flex;
   align-items: start;
   justify-content: center;
   overflow: hidden;
+  border-radius: 10px;
 }
 
 .logo {
@@ -80,29 +83,23 @@
 }
 
 .logo img {
-  width: 400px;
+  width: 500px;
   height: auto;
 }
 
 .loginRight {
-  width: 50%;
-  padding: 3rem;
+  width: 55%;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   text-align: center;
   position: relative;
 }
 
-.topLogo {
-  position: absolute;
-  top: 20px;
-  left: 30px;
-}
-
 .topLogo img {
-  width: 120px;
+  width: 150px;
 }
 
 hr {
@@ -111,28 +108,31 @@ hr {
 
 .welcomeText h2 {
   font-size: 1.8rem;
-  font-weight: bold;
+  font-weight: 300;
+  letter-spacing: 0.1rem;
   color: #b22222;
   margin-bottom: 10px;
 }
 
-.welcomeText p {
-  font-size: 1rem;
-  color: #333;
-  opacity: 0.8;
-  margin-bottom: 30px;
+.welcomeText h2 span {
+  font-weight: 600;
 }
 
-/* Form */
+.welcomeText p {
+  font-size: 1rem;
+  font-weight: 200;
+  letter-spacing: 0.05rem;
+  color: #333;
+  opacity: 0.8;
+}
+
 .loginForm {
-  width: 100%;
-  max-width: 350px;
+  width: 65%;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* Input Group */
 .input-group {
   display: flex;
   gap: 10px;
@@ -144,13 +144,14 @@ hr {
 }
 
 .input-text {
-  font-family: inherit;
   width: 100%;
   border: none;
   border-bottom: 2px solid #7f7f7f;
   border-radius: 0 !important;
   outline: 0;
   font-size: 17px;
+  font-weight: 300;
+  letter-spacing: 0.1rem;
   color: #7f7f7f;
   padding: 7px 0;
   background: transparent;
@@ -161,7 +162,7 @@ hr {
   color: transparent;
 }
 
-.input-text:placeholder-shown ~ .input-text-label {
+.input-text:placeholder-shown~.input-text-label {
   font-size: 17px;
   cursor: text;
 }
@@ -182,12 +183,12 @@ hr {
   border-image-slice: 1;
 }
 
-.input-text:focus ~ .input-text-label {
+.input-text:focus~.input-text-label {
   color: #dd0033;
 }
 
-.input-text:not(:placeholder-shown) ~ .input-text-label,
-.input-text:focus ~ .input-text-label {
+.input-text:not(:placeholder-shown)~.input-text-label,
+.input-text:focus~.input-text-label {
   position: absolute;
   display: block;
   transition: 0.2s;
@@ -201,24 +202,59 @@ hr {
   box-shadow: none;
 }
 
-
-/* Icone negli input */
-.icon {
+.icon-contact {
+  display: flex;
+  gap: 10px;
+  width: unset;
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-/* Sezione azioni di login */
+.icon-contact svg {
+  width: 20px;
+  height: 20px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+}
+
+.icon svg {
+  width: 20px;
+  height: 20px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.toggle-password {
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+
+.toggle-password svg {
+  width: 25px;
+  height: 25px;
+  transition: opacity 0.3s ease-in-out;
+}
+
 .loginActions {
   width: 100%;
-  max-width: 350px;
   display: flex;
   flex-direction: column;
 }
 
-/* Checkbox Remember Me */
 .cyberpunk-checkbox {
   align-items: start !important;
   appearance: none;
@@ -236,7 +272,7 @@ hr {
 
 .cyberpunk-checkbox:before {
   content: "";
-  background-color: #16213e;
+  background-color: #b22222;
   display: block;
   position: absolute;
   top: 50%;
@@ -253,7 +289,10 @@ hr {
 }
 
 .cyberpunk-checkbox-label {
-  font-size: 18px;
+  width: 30%;
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.08rem;
   color: #8b0000;
   cursor: pointer;
   user-select: none;
@@ -261,15 +300,13 @@ hr {
   align-items: start;
 }
 
-/* Contenitore pulsanti */
 .buttonContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   gap: 10px;
 }
 
-/* Bottone Login */
 .animated-button-login {
   position: relative;
   display: flex;
@@ -281,7 +318,8 @@ hr {
   font-size: 16px;
   background-color: inherit;
   border-radius: 100px;
-  font-weight: 600;
+  font-weight: 400;
+  letter-spacing: 0.1rem;
   color: #fff;
   background-color: #b22222;
   box-shadow: 0 0 0 2px #b22222;
@@ -370,7 +408,8 @@ hr {
   font-size: 16px;
   background-color: inherit;
   border-radius: 100px;
-  font-weight: 600;
+  font-weight: 400;
+  letter-spacing: 0.1rem;
   color: #b22222;
   box-shadow: 0 0 0 2px #b22222;
   cursor: pointer;
@@ -447,11 +486,11 @@ hr {
   opacity: 1;
 }
 
-/* Link Forgot Password */
 .forgotPassword {
-  margin-top: 15px;
+  margin-top: 2.5rem;
   font-size: 14px;
-  color: #16213e;
+  font-weight: 400;
+  letter-spacing: 0.07rem;
 }
 
 .forgotPassword a {
@@ -462,6 +501,53 @@ hr {
 
 .forgotPassword a:hover {
   text-decoration: underline;
+}
+
+.backHome {
+  margin-top: 2.5rem;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.07rem;
+}
+
+.backHome .homeLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 10%;
+  gap: 8px;
+  text-decoration: none;
+  color: #b22222;
+  font-weight: 600;
+  transition: color 0.3s ease-in-out;
+}
+
+.backHome .homeLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backHome .homeLink .hover-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.backHome .homeLink .hover-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: #b22222;
+  transform: scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.backHome .homeLink:hover .hover-underline::after {
+  transform: scaleX(1);
 }
 
 /* Responsività */
@@ -478,4 +564,224 @@ hr {
   .loginLeft {
     padding: 20px;
   }
+}
+
+/* CSS Registrazione */
+
+.registerBox {
+  position: absolute;
+  display: flex;
+  height: 700px;
+  width: 1200px;
+  background-color: #ffeded;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 1.5);
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.registerLeft {
+  width: 55%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.registerForm {
+  width: 80%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.flexContact {
+  display: flex;
+  gap: 15px;
+}
+
+.registerActions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cyberpunk-checkbox-register {
+  align-items: start !important;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #b22222;
+  border-radius: 5px;
+  background-color: transparent;
+  display: inline-block;
+  position: relative;
+  margin-right: 10px;
+  margin-bottom: 1.2rem;
+  cursor: pointer;
+}
+
+.cyberpunk-checkbox-register:before {
+  content: "";
+  background-color: #b22222;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+.cyberpunk-checkbox-register:checked:before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.cyberpunk-checkbox-label-register {
+  width: 80%;
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.08rem;
+  color: #8b0000;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: start;
+}
+
+.animated-button-register {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 30px;
+  border: 4px solid;
+  border-color: transparent;
+  font-size: 16px;
+  background-color: inherit;
+  border-radius: 100px;
+  font-weight: 400;
+  letter-spacing: 0.1rem;
+  color: #fff;
+  background-color: #b22222;
+  box-shadow: 0 0 0 2px #b22222;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button-register svg {
+  position: absolute;
+  width: 24px;
+  fill: #fff;
+  z-index: 9;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button-register .arr-1 {
+  right: 16px;
+}
+
+.animated-button-register .arr-2 {
+  left: -25%;
+}
+
+.animated-button-register .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background-color: #b22222;
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button-register .text {
+  position: relative;
+  z-index: 1;
+  transform: translateX(-12px);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button-register:hover {
+  box-shadow: 0 0 0 12px transparent;
+  color: #ebebeb;
+  border-radius: 12px;
+}
+
+.animated-button-register:hover .arr-1 {
+  right: -25%;
+}
+
+.animated-button-register:hover .arr-2 {
+  left: 16px;
+}
+
+.animated-button-register:hover .text {
+  transform: translateX(12px);
+}
+
+.animated-button-register:hover svg {
+  fill: #ebebeb;
+}
+
+.animated-button-register:hover .circle {
+  width: 220px;
+  height: 220px;
+  opacity: 1;
+}
+
+.backHome-register {
+  margin-top: 2rem;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.07rem;
+}
+
+.backHome-register .homeLink-register {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 10%;
+  gap: 8px;
+  text-decoration: none;
+  color: #b22222;
+  font-weight: 600;
+  transition: color 0.3s ease-in-out;
+}
+
+.backHome-register .homeLink-register {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backHome-register .homeLink-register .hover-underline-register {
+  position: relative;
+  display: inline-block;
+}
+
+.backHome-register .homeLink-register .hover-underline-register::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: #b22222;
+  transform: scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.backHome-register .homeLink-register:hover .hover-underline-register::after {
+  transform: scaleX(1);
 }

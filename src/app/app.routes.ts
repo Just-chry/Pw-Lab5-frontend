@@ -6,7 +6,7 @@ import { PartnerComponent } from './pages/partner/partner.component';
 import { PrenotazioneComponent } from './pages/prenotazione/prenotazione.component';
 import { AreaUtenteComponent } from './pages/area-utente/area-utente.component';
 import {RegisterComponent} from './pages/auth/register/register.component';
-import {LoginComponent} from './pages/auth/login/login.component';
+import {LoginComponent} from './pages/auth/account/account.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },

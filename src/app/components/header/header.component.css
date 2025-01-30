@@ -65,7 +65,6 @@ header .logo img {
   transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
   overflow: hidden;
   left: -15px;
-  font-family: 'Montserrat', sans-serif;
 }
 
 .button::before {
