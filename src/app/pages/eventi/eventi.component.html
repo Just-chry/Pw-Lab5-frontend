@@ -41,6 +41,11 @@
       <h3 class="event-title">{{ event.title }}</h3>
       <div class="event-time">{{ event.date | date : "dd MMM yyyy" }}</div>
       <p class="event-description">{{ event.description }}</p>
+      <div class="card-footer" *ngIf="isPastEvent(event)">
+        <span class="remaining-spots">
+          Evento passato
+        </span>
+      </div>
       <div class="card-footer" *ngIf="!isPastEvent(event)">
         <span class="remaining-spots">
           {{ event.remaining }} posti mancanti
