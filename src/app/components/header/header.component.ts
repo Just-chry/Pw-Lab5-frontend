@@ -1,6 +1,5 @@
 import { Component, ElementRef, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import gsap from 'gsap';
-import { routes } from '../../app.routes';
 
 @Component({
   selector: 'app-header',

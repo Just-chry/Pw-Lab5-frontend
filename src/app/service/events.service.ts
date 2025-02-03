@@ -56,8 +56,9 @@ export class EventsService {
     );
   }
 
-  createBooking(eventId: string): Observable<any> {
+  createBooking(eventId: string, sessionId: string): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(`${this.bookingUrl}/${eventId}`, {}, { headers });
+    withCredentials: true;
+    return this.http.post(`${this.bookingUrl}/${eventId}`, {}, { headers, withCredentials: true });
   }
 }

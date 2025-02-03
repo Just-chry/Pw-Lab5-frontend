@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { EventsService, Event } from '../../service/events.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class EventiComponent implements OnInit {
   searchTerm: string = '';
   selectedCategory: string = '';
 
-  constructor(private eventsService: EventsService) {}
+  constructor(private eventsService: EventsService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadEvents();
@@ -46,16 +46,25 @@ export class EventiComponent implements OnInit {
     return new Date(event.date) < new Date();
   }
 
+  getCookie(name: string): string | null {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+
   participate(eventId: string): void {
-    this.eventsService.createBooking(eventId).subscribe(
+    this.eventsService.createBooking(eventId, '').subscribe(
       (response) => {
         console.log('Booking created successfully', response);
-        // Handle successful booking creation (e.g., show a success message)
       },
       (error) => {
         console.error('Error creating booking', error);
-        // Handle error (e.g., show an error message)
+        if (error.status === 401 || error.status === 403) {
+          this.router.navigate(['/auth/account'], {
+            queryParams: { message: 'Please log in to book an event' },
+          });
+        }
       }
     );
   }
+
 }
