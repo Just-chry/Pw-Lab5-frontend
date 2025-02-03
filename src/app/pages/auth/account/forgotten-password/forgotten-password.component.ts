@@ -15,6 +15,7 @@ export class ForgotPasswordComponent {
   verificationCode: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
+  
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
   isPasswordTyped: boolean = false;
