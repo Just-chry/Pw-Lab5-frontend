@@ -44,7 +44,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   private animationId: number = 0;
   private lenis!: Lenis;
 
-  @ViewChild('rendererContainer', { static: true }) rendererContainer!: ElementRef;
+  @ViewChild('rendererContainer', {static: true}) rendererContainer!: ElementRef;
   @ViewChild('loginBox') loginBox!: ElementRef;
   @ViewChild('loginLeft') loginLeft!: ElementRef;
   @ViewChild('loginRight') loginRight!: ElementRef;
@@ -155,7 +155,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initLenis(): void {
-    this.lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    this.lenis = new Lenis({duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))});
     const raf = (time: number) => {
       this.lenis.raf(time);
       requestAnimationFrame(raf);
@@ -177,8 +177,8 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    gsap.set(leftElement, { x: '-100%', opacity: 0 });
-    gsap.set(rightElement, { x: '100%', opacity: 0 });
+    gsap.set(leftElement, {x: '-100%', opacity: 0});
+    gsap.set(rightElement, {x: '100%', opacity: 0});
 
     gsap.to(leftElement, {
       x: '0%',
@@ -211,8 +211,8 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    gsap.set(leftElement, { x: '-100%', opacity: 0 });
-    gsap.set(rightElement, { x: '100%', opacity: 0 });
+    gsap.set(leftElement, {x: '-100%', opacity: 0});
+    gsap.set(rightElement, {x: '100%', opacity: 0});
 
     gsap.to(leftElement, {
       x: '0%',
@@ -234,13 +234,13 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   switchToRegister(): void {
     this.isLoginVisible = false;
     this.animateSwitchToRegister();
-    this.router.navigate([], { fragment: 'register' });
+    this.router.navigate([], {fragment: 'register'});
   }
 
   switchToLogin(): void {
     this.isLoginVisible = true;
     this.animateSwitchToLogin();
-    this.router.navigate([], { fragment: 'login' });
+    this.router.navigate([], {fragment: 'login'});
   }
 
   animateSwitchToRegister(): void {
@@ -359,11 +359,31 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       next: (response) => {
         console.log('Registration successful:', response);
         this.animateSwitchToLogin();
-        this.router.navigate([], { fragment: 'login' });
-      },
+        this.router.navigate([], {fragment: 'login'});
+        },
       error: (err) => {
         console.error('Registration error:', err);
         this.errorMessage = 'Registration failed. Please try again.';
+      }
+    });
+  }
+
+  forgottenPasswordEmailOrPhone: string = '';
+
+  forgottenPassword(): void {
+    if (!this.forgottenPasswordEmailOrPhone) {
+      this.errorMessage = 'Email or phone number is required';
+      return;
+    }
+
+    this.authService.forgottenPassword(this.forgottenPasswordEmailOrPhone).subscribe({
+      next: (response) => {
+        console.log('Password reset request successful:', response);
+        this.errorMessage = 'Password reset instructions have been sent to your email or phone.';
+      },
+      error: (err) => {
+        console.error('Password reset request error:', err);
+        this.errorMessage = 'Failed to send password reset instructions. Please try again.';
       }
     });
   }

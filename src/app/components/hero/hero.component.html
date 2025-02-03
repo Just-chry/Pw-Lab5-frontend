@@ -10,7 +10,7 @@
         </p>
         <button class="cta-button" (click)="onGetStarted()">Scopri di più</button>
       </div>
-  
+
       <!-- Cards Section -->
       <div class="cards-container">
         <!-- Navigation Dots -->
@@ -20,10 +20,23 @@
           <div class="dot" (click)="switchCard(2)"></div>
         </div>
 
-        <app-event-card></app-event-card>
+        <div class="cards-wrapper">
+          <div class="event-card active">
+            <h2 class="card-title">Evento 1</h2>
+            <p class="card-description">Descrizione dell'evento 1.</p>
+          </div>
+          <div class="event-card">
+            <h2 class="card-title">Evento 2</h2>
+            <p class="card-description">Descrizione dell'evento 2.</p>
+          </div>
+          <div class="event-card">
+            <h2 class="card-title">Evento 3</h2>
+            <p class="card-description">Descrizione dell'evento 3.</p>
+          </div>
+        </div>
       </div>
     </div>
-  
+
     <!-- Scroll Indicator -->
     <div class="scroll-indicator" (click)="scrollToNextSection()">
       <i class="fa-solid fa-arrow-down"></i>

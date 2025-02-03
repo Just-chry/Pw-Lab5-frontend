@@ -12,7 +12,7 @@ import { EventCardComponent } from "../event-card/event-card.component";
 })
 export class HeroComponent implements AfterViewInit {
   public currentCardIndex: number = 0
-  
+
   constructor(private router: Router) { }
 
   viewEvent(eventId: number): void {
@@ -40,7 +40,24 @@ export class HeroComponent implements AfterViewInit {
   }
 
   switchCard(index: number): void {
-    this.currentCardIndex = index;
+    const cards = document.querySelectorAll('.event-card');
+    const dots = document.querySelectorAll('.dot');
+
+    cards.forEach((card, i) => {
+      if (i === index) {
+        card.classList.add('active');
+      } else {
+        card.classList.remove('active');
+      }
+    });
+
+    dots.forEach((dot, i) => {
+      if (i === index) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
   }
 
   onGetStarted(): void {

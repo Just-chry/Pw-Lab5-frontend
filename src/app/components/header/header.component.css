@@ -32,7 +32,7 @@
   position: relative;
   color: #b22222;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 300;
   letter-spacing: 0.2rem;
   cursor: pointer;
   text-decoration: none;
@@ -46,7 +46,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #b22222, #3956a3);
+  background: linear-gradient(90deg, #b22222, #16213e);
   transition: width 0.3s ease;
 }
 
@@ -92,17 +92,17 @@
 }
 
 .fa-solid {
-  transition: color 0.7s ease; 
+  transition: color 0.7s ease;
 }
 
 .fa-solid:hover {
-  color: #3956a3 !important;
+  color: #16213e !important;
 }
 
 .fa-regular:hover {
-  color: #3956a3 !important;
+  color: #16213e !important;
 }
 
 .fa-regular {
-  transition: color 0.7s ease; 
+  transition: color 0.7s ease;
 }
