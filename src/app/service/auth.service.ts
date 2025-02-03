@@ -34,7 +34,7 @@ export class AuthService {
     });
   }
 
-  register(registerData: any): Observable<any> {
+  register(registerData: registrationData): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -50,4 +50,13 @@ export interface LoginData {
   emailOrPhone: string;
   password: string;
   rememberMe?: boolean;
+}
+
+export interface registrationData {
+  name: string;
+  surname: string;
+  email: string;
+  phone: string;
+  password: string;
+  passwordConfirmation: string;
 }
