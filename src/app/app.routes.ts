@@ -6,6 +6,7 @@ import { PartnerComponent } from './pages/partner/partner.component';
 import { PrenotazioneComponent } from './pages/prenotazione/prenotazione.component';
 import { AreaUtenteComponent } from './pages/area-utente/area-utente.component';
 import { AccountComponent } from './pages/auth/account/account.component';
+import { ForgotPasswordComponent } from './pages/auth/account/forgotten-password/forgotten-password.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,4 +16,5 @@ export const routes: Routes = [
   { path: 'prenotazione', component: PrenotazioneComponent },
   { path: 'area-utente', component: AreaUtenteComponent },
   { path: 'auth/account', component: AccountComponent },
+  { path: 'auth/account/forgotten-password', component: ForgotPasswordComponent }
 ];
