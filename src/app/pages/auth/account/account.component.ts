@@ -44,7 +44,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   private animationId: number = 0;
   private lenis!: Lenis;
 
-  @ViewChild('rendererContainer', {static: true}) rendererContainer!: ElementRef;
+  @ViewChild('rendererContainer', { static: true }) rendererContainer!: ElementRef;
   @ViewChild('loginBox') loginBox!: ElementRef;
   @ViewChild('loginLeft') loginLeft!: ElementRef;
   @ViewChild('loginRight') loginRight!: ElementRef;
@@ -155,7 +155,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initLenis(): void {
-    this.lenis = new Lenis({duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))});
+    this.lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
     const raf = (time: number) => {
       this.lenis.raf(time);
       requestAnimationFrame(raf);
@@ -177,8 +177,8 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    gsap.set(leftElement, {x: '-100%', opacity: 0});
-    gsap.set(rightElement, {x: '100%', opacity: 0});
+    gsap.set(leftElement, { x: '-100%', opacity: 0 });
+    gsap.set(rightElement, { x: '100%', opacity: 0 });
 
     gsap.to(leftElement, {
       x: '0%',
@@ -211,8 +211,8 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    gsap.set(leftElement, {x: '-100%', opacity: 0});
-    gsap.set(rightElement, {x: '100%', opacity: 0});
+    gsap.set(leftElement, { x: '-100%', opacity: 0 });
+    gsap.set(rightElement, { x: '100%', opacity: 0 });
 
     gsap.to(leftElement, {
       x: '0%',
@@ -234,13 +234,13 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   switchToRegister(): void {
     this.isLoginVisible = false;
     this.animateSwitchToRegister();
-    this.router.navigate([], {fragment: 'register'});
+    this.router.navigate([], { fragment: 'register' });
   }
 
   switchToLogin(): void {
     this.isLoginVisible = true;
     this.animateSwitchToLogin();
-    this.router.navigate([], {fragment: 'login'});
+    this.router.navigate([], { fragment: 'login' });
   }
 
   animateSwitchToRegister(): void {
@@ -358,7 +358,8 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     this.authService.register(registrationData).subscribe({
       next: (response) => {
         console.log('Registration successful:', response);
-        this.router.navigate(['/area-utente']); // Navigate to user area
+        this.animateSwitchToLogin();
+        this.router.navigate([], { fragment: 'login' });
       },
       error: (err) => {
         console.error('Registration error:', err);

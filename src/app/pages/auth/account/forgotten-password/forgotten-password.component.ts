@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {AuthService} from '../../../../service/auth.service';
-import {CommonModule} from '@angular/common';
+import { AuthService } from '../../../../service/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-forgot-password',
@@ -16,12 +16,13 @@ export class ForgotPasswordComponent {
   verificationCode: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
-  
+
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
+  isPasswordTyped: boolean = false;
   isEmailValid: boolean = true;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   validateEmail() {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -91,6 +92,11 @@ export class ForgotPasswordComponent {
       },
     });
   }
+
+  onPasswordInput(): void {
+    this.isPasswordTyped = this.newPassword.length > 0;
+  }
+
 
   togglePassword() {
     this.showPassword = !this.showPassword;
