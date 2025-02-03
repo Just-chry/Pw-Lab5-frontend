@@ -107,10 +107,11 @@ export class EventCardComponent implements OnInit, OnDestroy {
     if (timeDiff <= 0) return 'Evento concluso';
 
     const days = Math.floor(timeDiff / (1000 * 3600 * 24));
-    const hours = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
-    const minutes = Math.floor((timeDiff % (1000 * 3600)) / (1000 * 60));
-    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+    if (days > 0) {
+      return `${days}d`;
+    }
 
-    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    const hours = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
+    return `${hours}h`;
   }
 }
