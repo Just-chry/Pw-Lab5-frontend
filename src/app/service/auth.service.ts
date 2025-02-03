@@ -6,7 +6,8 @@ import {Injectable} from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/auth'; // Endpoint base
+  private authUrl = 'http://localhost:8080/auth'; // Endpoint base
+  private userUrl = 'http://localhost:8080/user'; // Endpoint base
 
   constructor(private http: HttpClient) {}
 
@@ -15,7 +16,7 @@ export class AuthService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.post(`${this.apiUrl}/login`, loginData, {
+    return this.http.post(`${this.authUrl}/login`, loginData, {
       headers,
       responseType: 'text',
       withCredentials: true
@@ -27,7 +28,7 @@ export class AuthService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.post(`${this.apiUrl}/forgottenPassword`, { emailOrPhone }, {
+    return this.http.post(`${this.userUrl}/forgottenPassword`, { emailOrPhone }, {
       headers,
       responseType: 'text'
     });
@@ -38,7 +39,7 @@ export class AuthService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.post(`${this.apiUrl}/register`, registerData, {
+    return this.http.post(`${this.authUrl}/register`, registerData, {
       headers,
       responseType: 'text'
     });
