@@ -3,23 +3,35 @@
     <h2>Accedi al tuo account</h2>
     <p>Potrai consultare gli eventi a cui hai partecipato <br>e registrarti a quelli in programma.</p>
     <form (ngSubmit)="login()">
-      <label for="email">Email </label>
-      <input id="email" type="email" placeholder="Inserisci la tua email" [(ngModel)]="email" name="email" required />
+      <label for="emailOrPhone">Email o Telefono</label>
+      <input id="emailOrPhone" type="text" placeholder="Inserisci la tua email o telefono" [(ngModel)]="emailOrPhone" name="emailOrPhone" required />
       <br>
 
       <label for="password">Password </label>
       <input id="password" type="password" placeholder="Inserisci la tua password" [(ngModel)]="password" name="password" required />
       <br>
 
-      <label for="phone">Numero di telefono (facoltativo) </label>
-      <input id="phone" type="number" placeholder="Inserisci il tuo numero di telefono" [(ngModel)]="phone" name="phone" />
-      <br>
+      <div class="rememberMe">
+        <label for="rememberMe">
+          <input
+            id="rememberMe"
+            type="checkbox"
+            [(ngModel)]="rememberMe"
+            name="rememberMe"
+          />
+          Ricordami
+        </label>
+      </div>
 
       <button type="submit">Login</button>
     </form>
 
+    <!-- Link per password dimenticata -->
+    <button (click)="forgotPassword()" class="forgotPasswordButton">Password dimenticata?</button>
+
     <!-- Messaggio di errore -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
   </div>
 
   <div class="containerRegister">

@@ -153,4 +153,22 @@ form {
   .registerButton {
     width: 70%;
   }
+
+  .forgotPasswordButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+  }
+
+  .forgotPasswordButton:hover {
+    background-color: #0056b3;
+  }
+
 }

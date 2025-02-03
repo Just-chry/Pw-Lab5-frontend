@@ -1,41 +1,65 @@
-import {Component} from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
-import {AuthService, LoginData} from '../../../service/auth.service';
-import {FormsModule} from '@angular/forms';
-import {NgIf} from '@angular/common';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService, LoginData } from '../../../service/auth.service';
+import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [FormsModule, RouterLink, NgIf]
+  standalone: true,
+  imports: [FormsModule, NgIf]
 })
 export class LoginComponent {
-  email: string = '';
+  emailOrPhone: string = '';
   password: string = '';
-  phone: string = '';
+  rememberMe: boolean = false;
   errorMessage: string = '';
+  successMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   login(): void {
-    if ((!this.email && !this.phone) || !this.password) {
-      this.errorMessage = 'Inserisci email o telefono e password';
+    if (!this.emailOrPhone || !this.password) {
+      this.errorMessage = 'Inserisci email/telefono e password.';
       return;
     }
+
     const credentials: LoginData = {
-      email: this.email || undefined,
-      phone: this.phone || undefined,
+      emailOrPhone: this.emailOrPhone,
       password: this.password,
+      rememberMe: this.rememberMe
     };
+
     this.authService.login(credentials).subscribe({
       next: (response) => {
         console.log('Login riuscito:', response);
         this.router.navigate(['/area-utente']);
-      }, error: (err) => {
+      },
+      error: (err) => {
         console.error('Errore di login:', err);
         this.errorMessage = 'Credenziali errate o errore di connessione.';
+      },
+    });
+  }
+
+  forgotPassword(): void {
+    if (!this.emailOrPhone) {
+      this.errorMessage = 'Inserisci l\'email o il telefono per recuperare la password.';
+      return;
+    }
+
+    this.authService.forgottenPassword(this.emailOrPhone).subscribe({
+      next: (response) => {
+        console.log('Codice di verifica inviato:', response);
+        this.successMessage = 'Codice di verifica inviato con successo.';
+        this.errorMessage = ''; // Reset error message
+      },
+      error: (err) => {
+        console.error('Errore durante il recupero della password:', err);
+        this.errorMessage = 'Impossibile inviare il codice di verifica. Verifica che l\'email o il telefono siano corretti.';
+        this.successMessage = ''; // Reset success message
       },
     });
   }

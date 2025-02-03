@@ -1,60 +1,43 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../../service/auth.service';
-import {FormsModule} from '@angular/forms';
-import {NgIf} from '@angular/common';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {AuthService} from '../../../service/auth.service';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
   imports: [
-    FormsModule,
-    NgIf
+    ReactiveFormsModule,
+    CommonModule
   ]
 })
 export class RegisterComponent {
-  email: string = '';
-  password: string = '';
-  phone: string = '';
-  name: string = '';
-  surname: string = '';
-  errorMessage: string = '';
-  successMessage: string = '';
+  registerForm: FormGroup;
+  message: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  register(): void {
-    if ((!this.email && !this.phone) || !this.password || !this.name || !this.surname) {
-      this.errorMessage = 'Tutti i campi sono obbligatori';
-      return;
-    }
-
-    const userData = {
-      name: this.name,
-      surname: this.surname,
-      password: this.password,
-      email: this.email ? this.email : undefined,
-      phone: this.phone ? this.phone : undefined,
-    };
-
-    this.authService.register(userData).subscribe({
-      next: (response) => {
-        this.successMessage = 'Registrazione avvenuta con successo!';
-        this.errorMessage = '';
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-
-        if (err.status === 400) {
-          this.errorMessage = 'Dati di registrazione non validi. Riprova.';
-        } else if (err.status === 409) {
-          this.errorMessage = 'Un account con questa email o numero di telefono esiste già.';
-        } else {
-          this.errorMessage = 'Errore nella registrazione, riprova.';
-        }
-        this.successMessage = '';
-      },
+  constructor(private fb: FormBuilder, private authService: AuthService) {
+    this.registerForm = this.fb.group({
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: [''],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
+  }
+
+  onSubmit() {
+    if (this.registerForm.valid) {
+      this.authService.register(this.registerForm.value).subscribe({
+        next: (response) => {
+          console.log('Risposta ricevuta dal backend:', response); // DEBUG
+          this.message = response; // Mostra il messaggio
+        },
+        error: (error) => {
+          console.error('Errore durante la registrazione:', error); // DEBUG
+          this.message = error.error || 'Errore durante la registrazione.';
+        },
+      });
+    }
   }
 }
