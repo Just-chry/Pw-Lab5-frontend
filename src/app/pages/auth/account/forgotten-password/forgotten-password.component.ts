@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {AuthService} from '../../../../service/auth.service';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgotten-password.component.html',
   styleUrls: ['./forgotten-password.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule, CommonModule],
 })
 export class ForgotPasswordComponent {
   currentStep: number = 1;
@@ -17,49 +18,79 @@ export class ForgotPasswordComponent {
   confirmPassword: string = '';
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
-  isPasswordTyped: boolean = false;
+  isEmailValid: boolean = true;
 
-  // Validate email format
+  constructor(private authService: AuthService) {}
+
   validateEmail() {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(this.email)) {
-      console.warn('Invalid email address.');
+    this.isEmailValid = emailPattern.test(this.email);
+    if (!this.isEmailValid) {
+      console.warn('Formato email non valido.');
     }
   }
 
-  // Step 1: Send email to user
   sendEmail() {
     if (!this.email) {
-      console.error('Email is required.');
+      console.error('Email o numero di telefono obbligatorio.');
       return;
     }
-    console.log('Sending email to:', this.email);
-    this.currentStep = 2;
-  }
 
-  // Validate the verification code
-  validateCode() {
-    if (this.verificationCode.length < 6) {
-      console.warn('Verification code should be at least 6 characters.');
+    if (!this.isEmailValid) {
+      console.error('Formato email non valido.');
+      return;
     }
+
+    this.authService.forgottenPassword(this.email).subscribe({
+      next: () => {
+        console.log('Codice di verifica inviato con successo.');
+        this.currentStep = 2;
+      },
+      error: (err) => {
+        console.error('Errore durante l\'invio del codice:', err.error);
+      },
+    });
   }
 
-  // Step 2: Submit the verification code
   sendCode() {
     if (!this.verificationCode) {
-      console.error('Verification code is required.');
+      console.error('Codice di verifica obbligatorio.');
       return;
     }
-    console.log('Verification code submitted:', this.verificationCode);
-    this.currentStep = 3;
+
+    this.authService.verifyCode(this.email, this.verificationCode).subscribe({
+      next: () => {
+        console.log('Codice di verifica corretto.');
+        this.currentStep = 3;
+      },
+      error: (err) => {
+        console.error('Errore nella verifica del codice:', err.error);
+      },
+    });
   }
 
-  // Handle password input to manage visibility icon
-  onPasswordInput() {
-    this.isPasswordTyped = !!this.newPassword;
+  updatePassword() {
+    if (!this.newPassword || !this.confirmPassword) {
+      console.error('Entrambi i campi della password sono obbligatori.');
+      return;
+    }
+
+    if (this.newPassword !== this.confirmPassword) {
+      console.error('Le password non coincidono.');
+      return;
+    }
+
+    this.authService.updatePassword(this.email, this.newPassword, this.confirmPassword).subscribe({
+      next: () => {
+        console.log('Password aggiornata con successo.');
+        this.switchToLogin();
+      },
+      error: (err) => {
+        console.error('Errore nell\'aggiornamento della password:', err.error);
+      },
+    });
   }
 
-  // Toggle password visibility
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
@@ -68,23 +99,7 @@ export class ForgotPasswordComponent {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  // Step 3: Update the password
-  updatePassword() {
-    if (!this.newPassword || !this.confirmPassword) {
-      console.error('Both password fields are required.');
-      return;
-    }
-    if (this.newPassword !== this.confirmPassword) {
-      console.error('Passwords do not match.');
-      return;
-    }
-    console.log('Password successfully updated.');
-    this.switchToLogin();
-  }
-
-  // Redirect to login page or home
   switchToLogin() {
-    console.log('Redirecting to login page...');
-    // Implement your routing logic here if needed
+    console.log('Reindirizzamento alla pagina di login.');
   }
 }
