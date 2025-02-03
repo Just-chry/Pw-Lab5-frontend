@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface Event {
-  id: number;
+  id: string;
   title: string;
   description: string;
-  date: Date;       
+  date: Date;
   start: string;
   end: string;
   maxParticipants: number;
   participantsCount: number;
   category: string;
-  remaining?: number; 
+  remaining?: number;
 }
 
 @Injectable({
@@ -21,6 +21,7 @@ export interface Event {
 })
 export class EventsService {
   private apiUrl = 'http://localhost:8080/events';
+  private bookingUrl = 'http://localhost:8080/bookings';
 
   constructor(private http: HttpClient) {}
 
@@ -32,7 +33,7 @@ export class EventsService {
           const participantsCount = event.participantsCount;
           return {
             ...event,
-            date: new Date(event.date), 
+            date: new Date(event.date),
             remaining: maxParticipants - participantsCount
           };
         })
@@ -53,5 +54,10 @@ export class EventsService {
         };
       })
     );
+  }
+
+  createBooking(eventId: string): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(`${this.bookingUrl}/${eventId}`, {}, { headers });
   }
 }

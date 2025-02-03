@@ -7,7 +7,7 @@ import { EventsService, Event } from '../../service/events.service';
 @Component({
   selector: 'app-eventi',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule], 
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './eventi.component.html',
   styleUrls: ['./eventi.component.css'],
 })
@@ -40,5 +40,22 @@ export class EventiComponent implements OnInit {
 
       return matchesSearch && matchesCategory;
     });
+  }
+
+  isPastEvent(event: Event): boolean {
+    return new Date(event.date) < new Date();
+  }
+
+  participate(eventId: string): void {
+    this.eventsService.createBooking(eventId).subscribe(
+      (response) => {
+        console.log('Booking created successfully', response);
+        // Handle successful booking creation (e.g., show a success message)
+      },
+      (error) => {
+        console.error('Error creating booking', error);
+        // Handle error (e.g., show an error message)
+      }
+    );
   }
 }
