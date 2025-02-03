@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import gsap from 'gsap';
 import * as THREE from 'three';
 import Lenis from '@studio-freight/lenis';
+import { AuthService } from '../../../service/auth.service';
 
 @Component({
   selector: 'app-account',
@@ -17,6 +18,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   contact: string = '';
   isEmail: boolean = true;
   password: string = '';
+  rememberMe: boolean = false;
   errorMessage: string = '';
 
   showBothIcons: boolean = true;
@@ -42,7 +44,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   private animationId: number = 0;
   private lenis!: Lenis;
 
-  @ViewChild('rendererContainer', { static: true }) rendererContainer!: ElementRef;
+  @ViewChild('rendererContainer', {static: true}) rendererContainer!: ElementRef;
   @ViewChild('loginBox') loginBox!: ElementRef;
   @ViewChild('loginLeft') loginLeft!: ElementRef;
   @ViewChild('loginRight') loginRight!: ElementRef;
@@ -50,22 +52,23 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('registerLeft') registerLeft!: ElementRef;
   @ViewChild('registerRight') registerRight!: ElementRef;
 
-  constructor(private renderer2: Renderer2, private route: ActivatedRoute, private router: Router) { }
+  constructor(private renderer2: Renderer2, private route: ActivatedRoute, private router: Router, private authService: AuthService) {
+  }
 
   private showRegisterSectionImmediately(): void {
     this.registerBox.nativeElement.style.visibility = 'visible';
     this.registerBox.nativeElement.style.opacity = '1';
     this.registerBox.nativeElement.style.transform = 'translateX(0%)';
-  
+
     this.loginBox.nativeElement.style.visibility = 'hidden';
     this.loginBox.nativeElement.style.opacity = '0';
   }
-  
+
   private showLoginSectionImmediately(): void {
     this.loginBox.nativeElement.style.visibility = 'visible';
     this.loginBox.nativeElement.style.opacity = '1';
     this.loginBox.nativeElement.style.transform = 'translateX(0%)';
-  
+
     this.registerBox.nativeElement.style.visibility = 'hidden';
     this.registerBox.nativeElement.style.opacity = '0';
   }
@@ -152,7 +155,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initLenis(): void {
-    this.lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    this.lenis = new Lenis({duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))});
     const raf = (time: number) => {
       this.lenis.raf(time);
       requestAnimationFrame(raf);
@@ -174,8 +177,8 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    gsap.set(leftElement, { x: '-100%', opacity: 0 });
-    gsap.set(rightElement, { x: '100%', opacity: 0 });
+    gsap.set(leftElement, {x: '-100%', opacity: 0});
+    gsap.set(rightElement, {x: '100%', opacity: 0});
 
     gsap.to(leftElement, {
       x: '0%',
@@ -208,8 +211,8 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    gsap.set(leftElement, { x: '-100%', opacity: 0 });
-    gsap.set(rightElement, { x: '100%', opacity: 0 });
+    gsap.set(leftElement, {x: '-100%', opacity: 0});
+    gsap.set(rightElement, {x: '100%', opacity: 0});
 
     gsap.to(leftElement, {
       x: '0%',
@@ -231,13 +234,13 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   switchToRegister(): void {
     this.isLoginVisible = false;
     this.animateSwitchToRegister();
-    this.router.navigate([], { fragment: 'register' });
+    this.router.navigate([], {fragment: 'register'});
   }
 
   switchToLogin(): void {
     this.isLoginVisible = true;
     this.animateSwitchToLogin();
-    this.router.navigate([], { fragment: 'login' });
+    this.router.navigate([], {fragment: 'login'});
   }
 
   animateSwitchToRegister(): void {
@@ -249,7 +252,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     tl.to(this.loginBox.nativeElement, {
       x: '100%',
       opacity: 0,
-      duration: 3, 
+      duration: 3,
       ease: 'power3.out'
     });
 
@@ -259,9 +262,9 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     }, {
       x: '0%',
       opacity: 1,
-      duration: 4,  
+      duration: 4,
       ease: 'power3.out',
-    }, '<'); 
+    }, '<');
   }
 
   animateSwitchToLogin(): void {
@@ -285,37 +288,32 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       opacity: 1,
       duration: 4,
       ease: 'power3.out'
-    }, '<'); 
+    }, '<');
   }
 
   login(): void {
-    this.errorMessage = '';
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phonePattern = /^\d{10}$/;
-
     if (!this.contact || !this.password) {
       this.errorMessage = 'Email/Cellurare e password sono obbligatori';
       return;
     }
 
-    if (!emailPattern.test(this.contact) && !phonePattern.test(this.contact)) {
-      this.errorMessage = 'Inserisci un\'email o un numero di cellurare valido';
-      return;
-    }
-
-    console.log('Tentativo di login con:', {
-      contatto: this.contact,
+    // Esegui la chiamata API di login tramite AuthService (dal vecchio login.component.ts)
+    const credentials = {
+      emailOrPhone: this.contact,
       password: this.password,
+      rememberMe: this.rememberMe
+    };
+
+    this.authService.login(credentials).subscribe({
+      next: (response) => {
+        console.log('Login riuscito:', response);
+        this.router.navigate(['/area-utente']); // Navigazione alla pagina utente
+      },
+      error: (err) => {
+        console.error('Errore di login:', err);
+        this.errorMessage = 'Credenziali errate o errore di connessione.';
+      }
     });
-
-    this.simulateLogin();
-  }
-
-  simulateLogin(): void {
-    setTimeout(() => {
-      console.log('Login riuscito!');
-    }, 1000);
   }
 
   validateRegisterInput(): void {
@@ -338,37 +336,34 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   register(): void {
-    this.registrationErrorMessage = '';
-
-    if (!this.firstName || !this.lastName) {
-      this.registrationErrorMessage = 'Nome e cognome sono obbligatori';
+    if (!this.firstName || !this.lastName || !this.registerEmail || !this.registerPhone || !this.password || !this.confirmPassword) {
+      this.errorMessage = 'All fields are required';
       return;
     }
 
-    if (!this.registerEmail && !this.registerPhone) {
-      this.registrationErrorMessage = 'Inserisci almeno un\'email o un numero di telefono';
+    if (this.password !== this.confirmPassword) {
+      this.errorMessage = 'Passwords do not match';
       return;
     }
 
-    if (this.registerPassword !== this.confirmPassword) {
-      this.registrationErrorMessage = 'Le password non coincidono';
-      return;
-    }
-
-    console.log('Tentativo di registrazione con:', {
-      nome: this.firstName,
-      cognome: this.lastName,
+    const registrationData = {
+      name: this.firstName,
+      surname: this.lastName,
       email: this.registerEmail,
-      telefono: this.registerPhone,
-      password: this.registerPassword
+      phone: this.registerPhone,
+      password: this.password,
+      passwordConfirmation: this.confirmPassword
+    };
+
+    this.authService.register(registrationData).subscribe({
+      next: (response) => {
+        console.log('Registration successful:', response);
+        this.router.navigate(['/area-utente']); // Navigate to user area
+      },
+      error: (err) => {
+        console.error('Registration error:', err);
+        this.errorMessage = 'Registration failed. Please try again.';
+      }
     });
-
-    this.simulateRegistration();
-  }
-
-  simulateRegistration(): void {
-    setTimeout(() => {
-      console.log('Registrazione riuscita!');
-    }, 1000);
   }
 }
