@@ -8,7 +8,7 @@ import { EventCardComponent } from "../event-card/event-card.component";
   templateUrl: './hero.component.html',
   styleUrls: ['./hero.component.css'],
   standalone: true,
-  imports: [EventCardComponent],
+  imports: [],
 })
 export class HeroComponent implements AfterViewInit {
   public currentCardIndex: number = 0

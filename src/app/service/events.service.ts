@@ -1,20 +1,19 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, of} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 
 export interface Event {
   id: string;
   title: string;
   description: string;
   date: Date;
-  start: string;
-  end: string;
   maxParticipants: number;
   participantsCount: number;
-  category: string;
   remaining?: number;
+  bookingMessage?: string;  // Aggiunta del messaggio di prenotazione
 }
+
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +22,8 @@ export class EventsService {
   private apiUrl = 'http://localhost:8080/events';
   private bookingUrl = 'http://localhost:8080/bookings';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getEvents(): Observable<Event[]> {
     return this.http.get<Event[]>(this.apiUrl).pipe(
@@ -56,9 +56,25 @@ export class EventsService {
     );
   }
 
-  createBooking(eventId: string, sessionId: string): Observable<any> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    withCredentials: true;
-    return this.http.post(`${this.bookingUrl}/${eventId}`, {}, { headers, withCredentials: true });
+  createBooking(eventId: string): Observable<any> {
+    const url = `${this.bookingUrl}/${eventId}`;
+
+    return this.http.post<any>(url, null, { withCredentials: true }).pipe(
+      map(response => {
+        return { success: true, message: 'Booking created successfully', data: response };
+      }),
+      catchError(error => {
+        console.error('Error response:', error);
+        let errorMessage = 'Failed to create booking';
+        if (error.status === 409) {  // Gestione stato 409 CONFLICT
+          errorMessage = 'Hai già una prenotazione attiva per questo evento';
+        } else if (error.status === 404) {
+          errorMessage = 'Utente non trovato';
+        } else if (error.status === 204) {
+          errorMessage = 'Nessun contenuto disponibile per questo evento';
+        }
+        return of({ success: false, message: errorMessage, error });
+      })
+    );
   }
 }

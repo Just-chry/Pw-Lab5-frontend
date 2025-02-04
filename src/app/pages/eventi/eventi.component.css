@@ -231,3 +231,23 @@
 .clickable-card:hover {
   transform: translateY(-5px);
 }
+
+.booking-message {
+  margin-top: 10px;
+  padding: 8px;
+  color: white;
+  background-color: #007bff;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  animation: fade-in 0.3s ease-in-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

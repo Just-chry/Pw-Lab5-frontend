@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
-import { EventsService, Event } from '../../service/events.service';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {RouterModule, Router} from '@angular/router';
+import {EventsService, Event} from '../../service/events.service';
 
 @Component({
   selector: 'app-eventi',
@@ -14,9 +14,10 @@ import { EventsService, Event } from '../../service/events.service';
 export class EventiComponent implements OnInit {
   events: Event[] = [];
   searchTerm: string = '';
-  selectedCategory: string = '';
+  bookingMessage: string = ''; // Aggiungi questa proprietà
 
-  constructor(private eventsService: EventsService, private router: Router) {}
+  constructor(private eventsService: EventsService, private router: Router) {
+  }
 
   ngOnInit(): void {
     this.loadEvents();
@@ -34,11 +35,7 @@ export class EventiComponent implements OnInit {
         !this.searchTerm ||
         event.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         event.description.toLowerCase().includes(this.searchTerm.toLowerCase());
-
-      const matchesCategory =
-        !this.selectedCategory || event.category === this.selectedCategory;
-
-      return matchesSearch && matchesCategory;
+      return matchesSearch;
     });
   }
 
@@ -46,25 +43,33 @@ export class EventiComponent implements OnInit {
     return new Date(event.date) < new Date();
   }
 
-  getCookie(name: string): string | null {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    return match ? match[2] : null;
-  }
-
   participate(eventId: string): void {
-    this.eventsService.createBooking(eventId, '').subscribe(
-      (response) => {
-        console.log('Booking created successfully', response);
-      },
-      (error) => {
-        console.error('Error creating booking', error);
-        if (error.status === 401 || error.status === 403) {
-          this.router.navigate(['/auth/account'], {
-            queryParams: { message: 'Please log in to book an event' },
-          });
-        }
-      }
-    );
-  }
+    const event = this.events.find(e => e.id === eventId);
+    if (!event) return;
 
+    event.bookingMessage = '';  // Resetta il messaggio precedente
+
+    this.eventsService.createBooking(eventId).subscribe({
+      next: (response) => {
+        if (response.success) {
+          event.bookingMessage = 'Prenotazione effettuata con successo';
+        } else {
+          event.bookingMessage = response.message || 'Errore durante la prenotazione';
+        }
+
+        // Nascondi il messaggio dopo 5 secondi
+        setTimeout(() => (event.bookingMessage = ''), 5000);
+      },
+      error: (error) => {
+        console.error('Error creating booking', error);
+        event.bookingMessage = error.status === 401 || error.status === 403
+          ? 'Accedi per prenotare un evento'
+          : 'Prenotazione fallita';
+      },
+      complete: () => {
+        console.log('Booking request completed');
+      },
+    });
+  }
 }
+

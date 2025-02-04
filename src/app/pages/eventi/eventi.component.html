@@ -1,38 +1,5 @@
-<!-- Hero Section per Eventi -->
-<div class="hero">
-  <div class="hero-overlay"></div>
-  <img src="images/eventcard.png" alt="Immagine Evento" class="hero-image" />
-  <div class="hero-text">
-    <h1>Eventi e Incontri</h1>
-    <p>
-      Partecipa ai nostri eventi e scopri le ultime novità nel mondo della
-      tecnologia e dell’innovazione.
-    </p>
-  </div>
-</div>
-
-<!-- Search and Filter Bar -->
-<div class="search-filter-container">
-  <div class="search-bar">
-    <input type="text" placeholder="Cerca evento..." [(ngModel)]="searchTerm" />
-  </div>
-  <div class="filter-bar">
-    <select [(ngModel)]="selectedCategory">
-      <option value="">Tutte le categorie</option>
-      <option value="tech">Tecnologia</option>
-      <option value="innovation">Innovazione</option>
-      <option value="networking">Networking</option>
-    </select>
-  </div>
-</div>
-
-<!-- Cards Container -->
 <div class="cards-container">
-  <div
-    class="card clickable-card"
-    *ngFor="let event of filteredEvents"
-    [routerLink]="['/eventi', event.id]"
-  >
+  <div class="card clickable-card" *ngFor="let event of filteredEvents">
     <div class="card-image-container">
       <img src="images/hero.png" alt="Immagine Evento" class="card-image" />
       <div class="event-date">{{ event.date | date : "dd MMM yyyy" }}</div>
@@ -41,11 +8,12 @@
       <h3 class="event-title">{{ event.title }}</h3>
       <div class="event-time">{{ event.date | date : "dd MMM yyyy" }}</div>
       <p class="event-description">{{ event.description }}</p>
-      <div class="card-footer" *ngIf="isPastEvent(event)">
-        <span class="remaining-spots">
-          Evento passato
-        </span>
+
+      <!-- Messaggio di prenotazione -->
+      <div class="booking-message" *ngIf="event.bookingMessage">
+        {{ event.bookingMessage }}
       </div>
+
       <div class="card-footer" *ngIf="!isPastEvent(event)">
         <span class="remaining-spots">
           {{ event.remaining }} posti mancanti
