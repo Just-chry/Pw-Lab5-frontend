@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {RouterModule, Router} from '@angular/router';
-import {EventsService, Event} from '../../service/events.service';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { EventsService, Event } from '../../service/events.service';
 
 @Component({
   selector: 'app-eventi',
@@ -14,10 +14,12 @@ import {EventsService, Event} from '../../service/events.service';
 export class EventiComponent implements OnInit {
   events: Event[] = [];
   searchTerm: string = '';
-  bookingMessage: string = ''; // Aggiungi questa proprietà
+  searchDate: string = '';
+  bookingMessage: string = '';
+  futureEvents: Event[] = [];
+  pastEvents: Event[] = [];
 
-  constructor(private eventsService: EventsService, private router: Router) {
-  }
+  constructor(private eventsService: EventsService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadEvents();
@@ -26,16 +28,22 @@ export class EventiComponent implements OnInit {
   loadEvents(): void {
     this.eventsService.getEvents().subscribe((data: Event[]) => {
       this.events = data;
+      this.filterEvents();
     });
   }
 
-  get filteredEvents(): Event[] {
-    return this.events.filter((event) => {
-      const matchesSearch =
-        !this.searchTerm ||
-        event.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        event.description.toLowerCase().includes(this.searchTerm.toLowerCase());
-      return matchesSearch;
+  filterEvents(): void {
+    const searchTermLower = this.searchTerm.toLowerCase();
+    const searchDate = this.searchDate ? new Date(this.searchDate) : null;
+
+    this.futureEvents = this.events.filter(event => {
+      const matchesTitle = event.title.toLowerCase().includes(searchTermLower);
+      return !this.isPastEvent(event) && matchesTitle;
+    });
+
+    this.pastEvents = this.events.filter(event => {
+      const matchesTitle = event.title.toLowerCase().includes(searchTermLower);
+      return this.isPastEvent(event) && matchesTitle;
     });
   }
 
@@ -72,4 +80,3 @@ export class EventiComponent implements OnInit {
     });
   }
 }
-

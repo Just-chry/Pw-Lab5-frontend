@@ -60,9 +60,12 @@
 }
 
 .search-bar {
-  flex: 2;
-  position: relative;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
   cursor: pointer;
+  width: 50%;
 }
 
 .search-bar input {
@@ -230,6 +233,11 @@
 
 .clickable-card:hover {
   transform: translateY(-5px);
+}
+
+.h2{
+  text-align: center;
+  margin-top: 30px;
 }
 
 .booking-message {
