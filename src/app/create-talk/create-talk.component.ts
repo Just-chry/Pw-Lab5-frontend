@@ -18,7 +18,6 @@ export class CreateTalkComponent {
     this.talkForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      date: ['', Validators.required],
       tags: ['']
     });
   }
@@ -29,11 +28,11 @@ export class CreateTalkComponent {
       return;
     }
 
-    const { title, description, date, tags } = this.talkForm.value;
+    const { title, description, tags } = this.talkForm.value;
     const tagNames = tags.split(',').map((tag: string) => tag.trim());
 
     this.areaUtenteService.createTalk({
-      talk: { title, description, date },
+      talk: { title, description },
       tagNames
     }).subscribe({
       next: (talk) => {

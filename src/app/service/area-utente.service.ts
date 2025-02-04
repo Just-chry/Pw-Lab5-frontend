@@ -12,7 +12,6 @@ interface Talk {
   id?: string;
   title: string;
   description: string;
-  date: string;
 }
 
 interface User {
