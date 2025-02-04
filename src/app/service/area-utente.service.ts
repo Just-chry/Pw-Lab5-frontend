@@ -47,6 +47,11 @@ export class AreaUtenteService {
     );
   }
 
+  cancelBooking(bookingId: string): Observable<void> {
+    return this.http.put<void>(`${this.bookingUrl}/${bookingId}/cancel`, null, { withCredentials: true }).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.error('Error fetching user data:', error);

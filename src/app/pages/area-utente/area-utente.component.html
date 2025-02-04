@@ -28,6 +28,7 @@
       <h3>{{ booking.title }}</h3>
       <p><strong>Data:</strong> {{ booking.date | date: 'longDate' }}</p>
       <p><strong>Stato:</strong> {{ booking.status }}</p>
+      <button (click)="cancelBooking(booking.bookingId)">Cancella Prenotazione</button>
     </li>
   </ul>
 </div>
@@ -35,3 +36,4 @@
 <div *ngIf="!isLoading && bookings.length === 0 && !errorMessage">
   <p>Non ci sono prenotazioni attive.</p>
 </div>
+

@@ -59,4 +59,19 @@ export class AreaUtenteComponent implements OnInit {
       },
     });
   }
+
+  cancelBooking(bookingId: string): void {
+    if (confirm('Sei sicuro di voler cancellare questa prenotazione?')) {
+      this.areaUtenteService.cancelBooking(bookingId).subscribe({
+        next: () => {
+          this.bookings = this.bookings.filter(booking => booking.bookingId !== bookingId);
+          alert('Prenotazione cancellata con successo.');
+        },
+        error: (error) => {
+          console.error('Error cancelling booking:', error);
+          alert('Errore durante la cancellazione della prenotazione.');
+        },
+      });
+    }
+  }
 }
