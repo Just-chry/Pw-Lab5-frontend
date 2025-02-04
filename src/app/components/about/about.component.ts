@@ -51,28 +51,28 @@ export class AboutComponent implements OnInit {
       title: 'Secondo PyBeer e Crescita della Community',
       description:
         "A Ottobre 2023, Dario Bertolino si unisce all'organizzazione. Matteo Bilotta, insieme a Marco Beri, partecipa al secondo PyBeer, consolidando la community.",
-      image: '/images/about/aperitivojs.png',
+      image: 'aperitivojs.png',
     },
     {
       year: 'FEB 24',
       title: 'Lancio di Vue.js Varese',
       description:
         "A Febbraio 2024, Matteo Bilotta, con la sua passione per il frontend, crea il gruppo Telegram 'Vue.js Varese' per far conoscere il framework tra i professionisti locali.",
-      image: '/images/about/vuejs-varese.png',
+      image: 'vuejs-varese.png',
     },
     {
       year: 'GIU 24',
       title: 'Primo Evento Combinato',
       description:
         'A Giugno 2024 viene organizzato il primo evento combinato in Elmec, unendo le community e dimostrando la sinergia tra le diverse tecnologie.',
-      image: '/images/about/code_cheers.png',
+      image: 'code_cheers.png',
     },
     {
       year: 'DIC 24',
       title: 'Nascita del Varese Developer Group',
       description:
         'Rendendosi conto che rimanere confinati in specifiche tecnologie era limitante, gli organizzatori decidono di unire le community sotto un unico cappello: Varese Developer Group, per dare maggior visibilità e risonanza al mondo tech.',
-      image: '/images/logo/logoVDG.png',
+      image: 'logovarese.png',
     },
   ];
 

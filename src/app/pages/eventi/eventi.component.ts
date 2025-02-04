@@ -38,12 +38,14 @@ export class EventiComponent implements OnInit {
   filterEvents(): void {
     const searchTermLower = this.searchTerm.toLowerCase();
 
+    // Filtra gli eventi futuri
     this.futureEvents = this.events.filter(event => {
       const matchesTitle = event.title.toLowerCase().includes(searchTermLower);
       const matchesTag = event.tags?.some(tag => tag.name.toLowerCase().includes(searchTermLower));
       return !this.isPastEvent(event) && (matchesTitle || matchesTag);
     });
 
+    // Filtra gli eventi passati
     this.pastEvents = this.events.filter(event => {
       const matchesTitle = event.title.toLowerCase().includes(searchTermLower);
       const matchesTag = event.tags?.some(tag => tag.name.toLowerCase().includes(searchTermLower));

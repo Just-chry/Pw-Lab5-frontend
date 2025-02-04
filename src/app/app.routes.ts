@@ -6,8 +6,8 @@ import { TalkRelatoriComponent } from './pages/talk-relatori/talk-relatori.compo
 import { PartnerComponent } from './pages/partner/partner-details/partner-details.component';
 import { PrenotazioneComponent } from './pages/prenotazione/prenotazione.component';
 import { AreaUtenteComponent } from './pages/area-utente/area-utente.component';
-import { RelatoreDetailComponent } from './pages/talk-relatori/relatore-detail-component/relatore-detail-component.component';
 import { AccountComponent } from './pages/auth/account/account.component';
+import { RelatoreDetailComponent } from './pages/talk-relatori/relatore-detail-component/relatore-detail-component.component';
 import { ForgotPasswordComponent } from './pages/auth/account/forgotten-password/forgotten-password.component';
 import { CreateTalkComponent } from './create-talk/create-talk.component';
 

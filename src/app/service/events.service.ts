@@ -1,7 +1,20 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {forkJoin, Observable, of, switchMap} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { forkJoin, Observable, of, switchMap } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+
+export interface Speaker {
+  id: string;
+  name: string;
+  surname: string; 
+}
+
+export interface Talk {
+  id: string;
+  title: string;
+  description: string;
+  speakers?: Speaker[];
+}
 
 export interface Tag {
   id: string;
@@ -13,6 +26,8 @@ export interface Event {
   title: string;
   description: string;
   date: Date;
+  start: string;
+  end: string;
   maxParticipants: number;
   participantsCount: number;
   remaining?: number;
@@ -21,14 +36,14 @@ export interface Event {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventsService {
   private apiUrl = 'http://localhost:8080/events';
-  private bookingUrl = 'http://localhost:8080/bookings';
+  private talksUrl = 'http://localhost:8080/talks'; // Nuovo endpoint per i talk
+  private bookingUrl = 'http://localhost:8080/bookings'; 
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getEvents(): Observable<Event[]> {
     return this.http.get<Event[]>(this.apiUrl).pipe(
@@ -58,18 +73,21 @@ export class EventsService {
   }
 
   getEventById(id: number): Observable<Event> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Event>(url).pipe(
-      map(event => {
-        const maxParticipants = event.maxParticipants;
-        const participantsCount = event.participantsCount;
-        return {
-          ...event,
-          date: new Date(event.date),
-          remaining: maxParticipants - participantsCount
-        };
-      })
+    return this.http.get<Event>(`${this.apiUrl}/${id}`).pipe(
+      map(event => ({
+        ...event,
+        date: new Date(event.date),
+        remaining: event.maxParticipants - event.participantsCount,
+      }))
     );
+  }
+
+  getTalksByEventId(eventId: number): Observable<Talk[]> {
+    return this.http.get<Talk[]>(`${this.apiUrl}/${eventId}/talks`).pipe(catchError(() => []));
+  }
+
+  getSpeakersByTalkId(talkId: string): Observable<Speaker[]> {
+    return this.http.get<Speaker[]>(`${this.talksUrl}/${talkId}/speakers`).pipe(catchError(() => []));
   }
 
   createBooking(eventId: string): Observable<any> {
