@@ -1,43 +1,45 @@
-<div *ngIf="isLoading">
-  <p>Caricamento dati utente...</p>
-  <p>Caricamento delle prenotazioni in corso...</p>
-</div>
+<div class="container">
+  <div *ngIf="isLoading">
+    <p>Caricamento dati utente...</p>
+    <p>Caricamento delle prenotazioni in corso...</p>
+  </div>
 
-<div *ngIf="errorMessage">
-  <p class="error-message">{{ errorMessage }}</p>
-</div>
+  <div *ngIf="errorMessage">
+    <p class="error-message">{{ errorMessage }}</p>
+  </div>
 
-<div *ngIf="user && !isLoading && !errorMessage">
-  <h1>Dettagli Utente</h1>
-  <p><strong>Nome:</strong> {{ user?.name }}</p>
-  <p><strong>Cognome:</strong> {{ user?.surname }}</p>
-  <p><strong>Email:</strong> {{ user?.email }}</p>
-  <p><strong>Telefono:</strong> {{ user?.phone }}</p>
-</div>
+  <div *ngIf="user && !isLoading && !errorMessage">
+    <h1>Dettagli Utente</h1>
+    <p><strong>Nome:</strong> {{ user?.name }}</p>
+    <p><strong>Cognome:</strong> {{ user?.surname }}</p>
+    <p><strong>Email:</strong> {{ user?.email }}</p>
+    <p><strong>Telefono:</strong> {{ user?.phone }}</p>
+  </div>
 
-<div *ngIf="!isLoading && !errorMessage">
-  <h2>Prenotazioni attive</h2>
-  <ul class="booking-list">
-    <li *ngFor="let booking of activeBookings" class="booking-item">
-      <h3>{{ booking.title }}</h3>
-      <p><strong>Data:</strong> {{ booking.date | date: 'longDate' }}</p>
-      <p><strong>Stato:</strong> {{ booking.status }}</p>
-      <button (click)="cancelBooking(booking.bookingId)">Cancella Prenotazione</button>
-    </li>
-  </ul>
-</div>
+  <div *ngIf="!isLoading && !errorMessage">
+    <h2>Prenotazioni attive</h2>
+    <ul class="booking-list">
+      <li *ngFor="let booking of activeBookings" class="booking-item">
+        <h3>{{ booking.title }}</h3>
+        <p><strong>Data:</strong> {{ booking.date | date: 'longDate' }}</p>
+        <p><strong>Stato:</strong> {{ booking.status }}</p>
+        <button (click)="cancelBooking(booking.bookingId)">Cancella Prenotazione</button>
+      </li>
+    </ul>
+  </div>
 
-<div *ngIf="!isLoading && activeBookings.length === 0 && !errorMessage">
-  <p>Non ci sono prenotazioni attive.</p>
-</div>
+  <div *ngIf="!isLoading && activeBookings.length === 0 && !errorMessage">
+    <p>Non ci sono prenotazioni attive.</p>
+  </div>
 
-<div *ngIf="!isLoading && !errorMessage">
-  <h2>Altre prenotazioni</h2>
-  <ul class="booking-list">
-    <li *ngFor="let booking of otherBookings" class="booking-item">
-      <h3>{{ booking.title }}</h3>
-      <p><strong>Data:</strong> {{ booking.date | date: 'longDate' }}</p>
-      <p><strong>Stato:</strong> {{ booking.status }}</p>
-    </li>
-  </ul>
+  <div *ngIf="!isLoading && !errorMessage">
+    <h2>Altre prenotazioni</h2>
+    <ul class="booking-list">
+      <li *ngFor="let booking of otherBookings" class="booking-item">
+        <h3>{{ booking.title }}</h3>
+        <p><strong>Data:</strong> {{ booking.date | date: 'longDate' }}</p>
+        <p><strong>Stato:</strong> {{ booking.status }}</p>
+      </li>
+    </ul>
+  </div>
 </div>
