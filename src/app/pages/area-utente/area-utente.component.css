@@ -1,54 +1,76 @@
-/* Contenitore generale */
 .container {
   margin-left: 40px;
-}
-
-/* Generale */
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-  line-height: 1.6;
-  margin: 0;
   padding: 20px;
 }
 
-/* Titoli */
 h1, h2 {
   color: #007bff;
   margin-bottom: 15px;
 }
 
-/* Messaggi di caricamento */
-p {
-  font-size: 16px;
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
 }
 
-.is-loading p {
-  color: #6c757d;
-  font-style: italic;
+.form-group {
+  margin-bottom: 15px;
 }
 
-/* Messaggio di errore */
-.error-message {
-  color: #ff4d4f;
+label {
   font-weight: bold;
-  padding: 10px;
-  background-color: #ffe6e6;
-  border: 1px solid #ff4d4f;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
   border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.error-message, .success-message {
+  font-weight: bold;
   margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
   text-align: center;
 }
 
-/* Lista delle prenotazioni */
+.error-message {
+  color: #ff4d4f;
+  background-color: #ffe6e6;
+  border: 1px solid #ff4d4f;
+}
+
+.success-message {
+  color: #28a745;
+  background-color: #e6ffed;
+  border: 1px solid #28a745;
+}
+
 .booking-list {
   list-style: none;
   padding: 0;
   margin-right: 20px;
 }
 
-/* Item della prenotazione */
 .booking-item {
   background-color: #fff;
   border: 1px solid #ddd;
@@ -65,32 +87,4 @@ p {
 
 .booking-item p {
   margin: 5px 0;
-}
-
-/* Pulsante di cancellazione */
-button {
-  background-color: #ff4d4f;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  font-size: 14px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #cc0000;
-}
-
-button:focus {
-  outline: none;
-  box-shadow: 0 0 4px rgba(255, 77, 79, 0.7);
-}
-
-/* Sezione vuota */
-p.no-bookings {
-  text-align: center;
-  font-size: 18px;
-  color: #6c757d;
 }
