@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {AreaUtenteService} from '../../service/area-utente.service';
-import {CommonModule} from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { AreaUtenteService } from '../../service/area-utente.service';
+import { CommonModule } from '@angular/common';
 
 interface User {
   id: string;
@@ -17,7 +17,6 @@ interface Booking {
   status: string;
 }
 
-
 @Component({
   selector: 'app-area-utente',
   templateUrl: './area-utente.component.html',
@@ -26,12 +25,12 @@ interface Booking {
 })
 export class AreaUtenteComponent implements OnInit {
   user: User | null = null;
-  bookings: Booking[] = [];
+  activeBookings: Booking[] = [];
+  otherBookings: Booking[] = [];
   isLoading: boolean = true;
   errorMessage: string | null = null;
 
-  constructor(private areaUtenteService: AreaUtenteService) {
-  }
+  constructor(private areaUtenteService: AreaUtenteService) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -49,7 +48,8 @@ export class AreaUtenteComponent implements OnInit {
 
     this.areaUtenteService.fetchUserActiveBookings().subscribe({
       next: (data) => {
-        this.bookings = data;
+        this.activeBookings = data.filter(booking => booking.status === 'confirmed');
+        this.otherBookings = data.filter(booking => booking.status !== 'confirmed');
         this.isLoading = false;
       },
       error: (error) => {
@@ -64,7 +64,7 @@ export class AreaUtenteComponent implements OnInit {
     if (confirm('Sei sicuro di voler cancellare questa prenotazione?')) {
       this.areaUtenteService.cancelBooking(bookingId).subscribe({
         next: () => {
-          this.bookings = this.bookings.filter(booking => booking.bookingId !== bookingId);
+          this.activeBookings = this.activeBookings.filter(booking => booking.bookingId !== bookingId);
           alert('Prenotazione cancellata con successo.');
         },
         error: (error) => {
