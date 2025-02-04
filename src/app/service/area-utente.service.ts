@@ -3,6 +3,18 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
+interface CreateTalkRequest {
+  talk: Talk;
+  tagNames: string[];
+}
+
+interface Talk {
+  id?: string;
+  title: string;
+  description: string;
+  date: string;
+}
+
 interface User {
   id: string;
   name: string;
@@ -24,7 +36,7 @@ interface Booking {
 export class AreaUtenteService {
   private apiUrl = 'http://localhost:8080/user';
   private  bookingUrl = 'http://localhost:8080/bookings';
-
+  private talkUrl = 'http://localhost:8080/talks';
 
   constructor(private http: HttpClient) {}
 
@@ -49,6 +61,12 @@ export class AreaUtenteService {
 
   cancelBooking(bookingId: string): Observable<void> {
     return this.http.put<void>(`${this.bookingUrl}/${bookingId}/cancel`, null, { withCredentials: true }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  createTalk(request: CreateTalkRequest): Observable<Talk> {
+    return this.http.post<Talk>(this.talkUrl, request, { withCredentials: true }).pipe(
       catchError(this.handleError)
     );
   }

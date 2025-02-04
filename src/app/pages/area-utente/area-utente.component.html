@@ -16,6 +16,10 @@
     <p><strong>Telefono:</strong> {{ user?.phone }}</p>
   </div>
 
+  <div class="create-talk-button-container">
+    <button (click)="goToCreateTalk()" class="btn btn-primary">Crea il tuo Talk</button>
+  </div>
+
   <div *ngIf="!isLoading && !errorMessage">
     <h2>Prenotazioni attive</h2>
     <ul class="booking-list">

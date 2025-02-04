@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AreaUtenteService } from '../../service/area-utente.service';
 import { CommonModule } from '@angular/common';
 
@@ -30,7 +31,7 @@ export class AreaUtenteComponent implements OnInit {
   isLoading: boolean = true;
   errorMessage: string | null = null;
 
-  constructor(private areaUtenteService: AreaUtenteService) {}
+  constructor(private areaUtenteService: AreaUtenteService, private router: Router) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -58,6 +59,10 @@ export class AreaUtenteComponent implements OnInit {
         this.isLoading = false;
       },
     });
+  }
+
+  goToCreateTalk(): void {
+    this.router.navigate(['/create-talk']);
   }
 
   cancelBooking(bookingId: string): void {
