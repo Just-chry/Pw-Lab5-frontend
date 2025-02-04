@@ -14,8 +14,6 @@ import { EventsService, Event } from '../../service/events.service';
 export class EventiComponent implements OnInit {
   events: Event[] = [];
   searchTerm: string = '';
-  searchDate: string = '';
-  bookingMessage: string = '';
   futureEvents: Event[] = [];
   pastEvents: Event[] = [];
 
@@ -28,22 +26,28 @@ export class EventiComponent implements OnInit {
   loadEvents(): void {
     this.eventsService.getEvents().subscribe((data: Event[]) => {
       this.events = data;
+      this.events.forEach(event => {
+        this.eventsService.getTagsByEventId(event.id).subscribe(tags => {
+          event.tags = tags;
+        });
+      });
       this.filterEvents();
     });
   }
 
   filterEvents(): void {
     const searchTermLower = this.searchTerm.toLowerCase();
-    const searchDate = this.searchDate ? new Date(this.searchDate) : null;
 
     this.futureEvents = this.events.filter(event => {
       const matchesTitle = event.title.toLowerCase().includes(searchTermLower);
-      return !this.isPastEvent(event) && matchesTitle;
+      const matchesTag = event.tags?.some(tag => tag.name.toLowerCase().includes(searchTermLower));
+      return !this.isPastEvent(event) && (matchesTitle || matchesTag);
     });
 
     this.pastEvents = this.events.filter(event => {
       const matchesTitle = event.title.toLowerCase().includes(searchTermLower);
-      return this.isPastEvent(event) && matchesTitle;
+      const matchesTag = event.tags?.some(tag => tag.name.toLowerCase().includes(searchTermLower));
+      return this.isPastEvent(event) && (matchesTitle || matchesTag);
     });
   }
 

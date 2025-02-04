@@ -1,7 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {forkJoin, Observable, of, switchMap} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
+
+export interface Tag {
+  id: string;
+  name: string;
+}
 
 export interface Event {
   id: string;
@@ -11,9 +16,9 @@ export interface Event {
   maxParticipants: number;
   participantsCount: number;
   remaining?: number;
-  bookingMessage?: string;  // Aggiunta del messaggio di prenotazione
+  bookingMessage?: string;
+  tags?: Tag[];
 }
-
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +42,18 @@ export class EventsService {
             remaining: maxParticipants - participantsCount
           };
         })
-      )
+      ),
+      switchMap(events => {
+        const eventsWithTags$ = events.map(event =>
+          this.getTagsByEventId(event.id).pipe(
+            map(tags => ({
+              ...event,
+              tags
+            }))
+          )
+        );
+        return forkJoin(eventsWithTags$);
+      })
     );
   }
 
@@ -76,5 +92,10 @@ export class EventsService {
         return of({ success: false, message: errorMessage, error });
       })
     );
+  }
+
+  getTagsByEventId(eventId: string): Observable<Tag[]> {
+    const url = `${this.apiUrl}/${eventId}/tags`;
+    return this.http.get<Tag[]>(url);
   }
 }
