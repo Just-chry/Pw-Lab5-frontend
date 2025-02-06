@@ -1,47 +1,158 @@
-/* Hero Section */
-.hero {
-    position: relative;
-    text-align: center;
-    color: white;
-    height: 600px;
+/* Container principale a due colonne con misure fisse */
+.partner-details {
+  display: flex;
+  max-width: 1200px;
+  margin: 40px auto;
+  gap: 20px;
+}
+
+/* Card informazioni partner (sinistra) */
+.partner-info {
+  width: 40%;
+  height: 300px; /* Altezza fissa */
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Evita lo scroll interno */
+  text-align: left;
+}
+
+.partner-info p {
+  font-size: 1.1em;
+  color: #555;
+  margin: 20px 0;
+  margin-top: 3.5vh;
+}
+
+.partner-info a {
+  color: #A90202;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.partner-info a:hover {
+  text-decoration: underline;
+}
+
+/* Logo Partner */
+.partner-logo {
+  max-width: 200px;
+  margin: 0 auto 20px;
+  display: block;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* Card eventi partner (destra) */
+.partner-events {
+  width: 60%;
+  height: 310px; /* Stessa altezza della card informazioni (leggermente maggiore per includere il titolo) */
+  background-color: #ffffff;
+  padding: 15px 25px 25px 25px; /* Ridotto il padding-top per avvicinare il titolo all'inizio */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Titolo Eventi: posizionato in cima, fuori dall'area scrollabile */
+.partner-events h2 {
+  font-size: 1.8em;
+  color: #A90202;
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0;              /* rimuove margini extra */
+  padding-bottom: 10px;   /* separazione minima dal contenuto scrollabile */
+  border-bottom: 1px solid #eee;
+}
+
+/* Container scrollabile per gli eventi */
+.events-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px; /* Per evitare che il contenuto venga coperto dalla scrollbar */
+  margin-top: 10px;    /* Spazio minimo per separare dal titolo */
+}
+
+/* Singola Event Card */
+.event-card {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.event-card h3 {
+  font-size: 1.6em;
+  color: #A90202;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.event-card p {
+  font-size: 1.1em;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.event-card p strong {
+  color: #A90202;
+}
+
+/* Messaggio se nessun evento */
+.no-events-message {
+  text-align: center;
+  font-size: 1.3em;
+  color: #888;
+  margin-top: 30px;
+  font-style: italic;
+}
+
+/* Responsive: per tablet e telefoni le card sono impilate verticalmente */
+@media (max-width: 1024px) {
+  .partner-details {
+    flex-direction: column;
+    max-width: 80%;
+    gap: 20px;
   }
   
-  .hero-image {
+  .partner-info,
+  .partner-events {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(50%);
+    height: auto;
   }
   
-  .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+  .partner-events {
+    margin-top: 20px;
   }
   
-  .hero-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
-    z-index: 1;
+  .events-container {
+    max-height: 400px;
+  }
+}
+
+/* Ulteriore ottimizzazione per dispositivi molto piccoli (max-width: 480px) */
+@media (max-width: 480px) {
+
+  .partner-details {
+    max-width: 60%;
+    margin-right: 110px;
+    gap: 10px;
+  }
+
+  .partner-info p,
+  .event-card p {
+    font-size: 1em;
   }
   
-  .hero-text h1 {
-    font-size: 3rem;
-    font-weight: bold;
-    text-transform: uppercase;
+  .partner-events h2 {
+    font-size: 1.6em;
   }
   
-  .hero-text p {
-    font-size: 1.25rem;
-    max-width: 600px;
-    margin: 0 auto;
-    color: #f5f5f5;
+  .event-card h3 {
+    font-size: 1.4em;
   }
-  
-  
+}

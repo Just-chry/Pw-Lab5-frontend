@@ -1,3 +1,62 @@
+.event-section {
+  padding: 80px;
+  background: linear-gradient(to right, #1a1a2e, #16213e, #0f3460);;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+}
+
+.hero-header {
+  margin-bottom: 30px;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  color: #1956a0;
+  margin: 10px 0;
+  text-transform: uppercase;
+}
+
+h1 .highlight {
+  color: #ff6666;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #ffffff;
+  width: 40%;
+  margin: auto;
+}
+
+.animated-content {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fade-in 1s ease forwards;
+}
+
+.animated-content:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.animated-content:nth-child(2) {
+  animation-delay: 0.7s;
+}
+
+.animated-content:nth-child(3) {
+  animation-delay: 0.9s;
+}
+
 .carousel-container {
   position: relative;
   width: 90%;
@@ -7,7 +66,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 80vh;
+  height: 60vh;
 }
 
 .carousel {
@@ -31,7 +90,7 @@
   width: 50vw;
   height: 380px;
   background: linear-gradient(100deg, white 55%, transparent 45%),
-    url('/images/pyvarese.png');
+    url('/images/about/pyvarese.png');
   border-radius: 20px;
   padding: 30px;
   display: flex;
@@ -155,7 +214,7 @@
 
 /* Frecce senza sfondo */
 .nav-button {
-  color: #333;
+  color: #ffffff;
   font-size: 30px;
   cursor: pointer;
   z-index: 10;
@@ -173,11 +232,11 @@
 }
 
 .nav-button.prev {
-  left: -10vw;
+  left: 10%;
 }
 
 .nav-button.next {
-  right: -10vw;
+  right: 10%;
 }
 
 /* Hover e trasformazione per l'animazione */
